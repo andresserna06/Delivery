@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url_backend : 'https://ff43b169-300b-49b5-9384-2e881a30ecfb.mock.pstmn.io',
+  url_backend : 'http://127.0.0.1:5000',
   url_security: 'https://2ea9617f-b870-4c77-b45a-dcf4b035fe95.mock.pstmn.io',
   url_web_socket: 'http://localhost:5000'
 };

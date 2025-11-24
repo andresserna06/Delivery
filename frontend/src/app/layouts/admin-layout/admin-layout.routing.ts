@@ -20,7 +20,13 @@ export const AdminLayoutRoutes: Routes = [
                 path: 'theaters',
                 canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
                 loadChildren: () => import('src/app/pages/theaters/theaters.module').then(m => m.TheatersModule)
-            }
+            },
+            {
+                path: 'products',
+                canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
+                loadChildren: () => import('src/app/pages/products/products.module').then(m => m.ProductsModule)
+            },
+
         ]
     }
 ];
