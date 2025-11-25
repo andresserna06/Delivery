@@ -1,15 +1,25 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-</div>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 
 <!-- Page content -->
 <div class="container-fluid mt--7">
+
+  <div class="row mb-3">
+    <div class="col text-right">
+      <button class="btn btn-success" (click)="create()">
+        Crear Producto
+      </button>
+    </div>
+  </div>
+
   <!-- Table -->
   <div class="row">
     <div class="col">
       <div class="card shadow">
-        <div class="card-header bg-transparent">
+
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
           <h3 class="mb-0">Productos</h3>
         </div>
+
         <div class="card-body">
 
           <!-- Loading -->
@@ -29,6 +39,7 @@
                   <th>Opciones</th>
                 </tr>
               </thead>
+
               <tbody>
                 <tr *ngFor="let product of products">
                   <td>{{ product.id }}</td>
@@ -37,12 +48,19 @@
                   <td>{{ product.description }}</td>
                   <td>{{ product.category }}</td>
                   <td>
-                    <button routerLink="/products/update/{{product.id}}"
-                      class="btn btn-warning btn-sm mr-2">Editar</button>
-                    <button (click)="deleteProduct(product.id)" class="btn btn-danger btn-sm">Eliminar</button>
+                    <button class="btn btn-warning btn-sm mr-2"
+                      (click)="updateProduct(product.id)">
+                      Editar
+                    </button>
+
+                    <button class="btn btn-danger btn-sm"
+                      (click)="deleteProduct(product.id)">
+                      Eliminar
+                    </button>
                   </td>
                 </tr>
               </tbody>
+
             </table>
           </div>
 
@@ -52,7 +70,9 @@
           </div>
 
         </div>
+
       </div>
     </div>
   </div>
+
 </div>
