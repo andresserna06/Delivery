@@ -1,0 +1,57 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+
+                <!-- Card header -->
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Fotos del Problema {{ issueId }}</h3>
+                    <button [routerLink]="['/photos/create', issueId]" [queryParams]="{ motoId: motoId }"
+                        class="btn btn-primary btn-sm">
+                        + Subir Foto
+                    </button>
+                </div>
+
+                <!-- Card body -->
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Imagen</th>
+                                <th>Descripción</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let photo of photos">
+                                <td>{{ photo.id }}</td>
+                                <td>
+                                    <img [src]="photo.image_url" alt="Foto" width="100">
+                                </td>
+                                <td>{{ photo.caption }}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" (click)="deletePhoto(photo.id)">
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Botón Volver -->
+                    <div class="row mt-3">
+                        <div class="col-12 text-right">
+                            <button type="button" class="btn btn-secondary" (click)="back()">Volver</button>
+                        </div>
+                    </div>
+
+                </div> <!-- End Card body -->
+
+            </div> <!-- End Card -->
+        </div> <!-- End Col -->
+    </div> <!-- End Row -->
+</div> <!-- End Container -->

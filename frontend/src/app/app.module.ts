@@ -14,7 +14,6 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
-
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -29,6 +28,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent
+   
   ],
   providers: [{
       provide: HTTP_INTERCEPTORS,

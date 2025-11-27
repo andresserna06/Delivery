@@ -1,0 +1,76 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <h3 class="mb-0" *ngIf="mode==1">Detalle Issue</h3>
+                    <h3 class="mb-0" *ngIf="mode==2">Crear Issue</h3>
+                    <h3 class="mb-0" *ngIf="mode==3">Actualizar Issue</h3>
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="theFormGroup">
+                        <!-- Solo mostrar ID en modo view o update -->
+                        <div class="row mb-3" *ngIf="mode !== 2">
+                            <div class="col-3">ID</div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" formControlName="id" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-3">Descripción</div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" formControlName="description"
+                                    [disabled]="mode==1">
+                                <div
+                                    *ngIf="getTheFormGroup.description.errors && (getTheFormGroup.description.dirty || getTheFormGroup.description.touched || trySend)">
+                                    <small *ngIf="getTheFormGroup.description.errors.required"
+                                        class="text-danger">Requerido</small>
+                                    <small *ngIf="getTheFormGroup.description.errors.minlength"
+                                        class="text-danger">Mínimo 5 caracteres</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-3">Tipo</div>
+                            <div class="col-9">
+                                <select class="form-control" formControlName="issue_type" [disabled]="mode==1">
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="accident">Accident</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-3">Estado</div>
+                            <div class="col-9">
+                                <select class="form-control" formControlName="status" [disabled]="mode==1">
+                                    <option value="pending">Pending</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="resolved">Resolved</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-9">
+                                <button type="button" class="btn btn-secondary" (click)="back()">Volver</button>
+                                <button type="button" class="btn btn-success" (click)="create()"
+                                    *ngIf="mode==2">Crear</button>
+                                <button type="button" class="btn btn-warning" (click)="update()"
+                                    *ngIf="mode==3">Actualizar</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
