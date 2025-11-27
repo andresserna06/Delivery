@@ -22,37 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Python compiled files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environment
-venv/
-env/
-ENV/
-.venv/
-
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
-*.egg
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-
-# Flask instance folders
-instance/
-*.sqlite3
