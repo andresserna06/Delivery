@@ -57,7 +57,7 @@ export const AdminLayoutRoutes: Routes = [
                 canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
                 loadChildren: () => import('src/app/pages/customers/customers.module').then(m => m.CustomersModule)
             },
-=========
+            {
                 path: 'orders',
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/orders/orders.module').then(m => m.OrdersModule)
@@ -72,8 +72,6 @@ export const AdminLayoutRoutes: Routes = [
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/photos/photos.module').then(m => m.PhotosModule)
             }
->>>>>>>>> Temporary merge branch 2
-
         ]
     }
 ];
