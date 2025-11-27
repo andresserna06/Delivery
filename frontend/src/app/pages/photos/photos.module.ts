@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PhotosRoutingModule } from './photos-routing.module';
 import { ManagePhotosComponent } from './manage/manage.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { ManagePhotosComponent } from './manage/manage.component';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     PhotosRoutingModule
   ]
 })

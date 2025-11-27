@@ -1,3 +1,4 @@
+<!-- Header Argon -->
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 
 <div class="container-fluid mt--7">
@@ -5,53 +6,101 @@
         <div class="col">
             <div class="card shadow">
 
-                <!-- Card header -->
                 <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0">Fotos del Problema {{ issueId }}</h3>
-                    <button [routerLink]="['/photos/create', issueId]" [queryParams]="{ motoId: motoId }"
-                        class="btn btn-primary btn-sm">
+
+                    <h3 class="mb-0" *ngIf="mode === 'view'">
+                        Fotos del Problema: {{ issue?.description }}
+                    </h3>
+
+                    <h3 class="mb-0" *ngIf="mode === 'create'">
+                        Subir nueva Foto
+                    </h3>
+
+                    <!-- Botón SOLO en modo view -->
+                    <button *ngIf="mode === 'view'" class="btn btn-primary btn-sm"
+                        [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'create']">
                         + Subir Foto
                     </button>
+
                 </div>
 
-                <!-- Card body -->
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>Imagen</th>
-                                <th>Descripción</th>
-                                <th>Opciones</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
-                            <tr *ngFor="let photo of photos">
-                                <td>{{ photo.id }}</td>
-                                <td>
-                                    <img [src]="photo.image_url" alt="Foto" width="100">
-                                </td>
-                                <td>{{ photo.caption }}</td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" (click)="deletePhoto(photo.id)">
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <!-- ==================== MODO VIEW ======================= -->
+                    <div *ngIf="mode === 'view'">
 
-                    <!-- Botón Volver -->
-                    <div class="row mt-3">
-                        <div class="col-12 text-right">
-                            <button type="button" class="btn btn-secondary" (click)="back()">Volver</button>
-                        </div>
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Descripción</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let p of issue?.photos">
+
+                                    <td>
+                                        <img [src]="p.image_url" width="120" class="rounded shadow-sm">
+                                    </td>
+
+                                    <td>{{ p.caption }}</td>
+
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" (click)="deletePhoto(p.id)">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <button class="btn btn-secondary mt-3" (click)="back()">
+                            Volver
+                        </button>
                     </div>
 
-                </div> <!-- End Card body -->
+                    <!-- ==================== MODO CREATE ======================= -->
+                    <div *ngIf="mode === 'create'">
 
-            </div> <!-- End Card -->
-        </div> <!-- End Col -->
-    </div> <!-- End Row -->
-</div> <!-- End Container -->
+                        <form [formGroup]="photoForm">
+
+                            <div class="row mb-3">
+                                <div class="col-3">Descripción</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" formControlName="caption">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-3">URL Imagen</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" formControlName="image_url">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-3"></div>
+                                <div class="col-9">
+                                    <button class="btn btn-success" (click)="createPhoto()">
+                                        Guardar
+                                    </button>
+
+                                    <button class="btn btn-secondary"
+                                        [routerLink]="['/photos', 'issue', issueId, 'moto', motoId]">
+                                        Cancelar
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

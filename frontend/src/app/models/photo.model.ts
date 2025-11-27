@@ -1,5 +1,5 @@
 export interface Photo {
-  id: number;
+  id?: number;
   caption: string;
   image_url: string;
   issue_id: number;

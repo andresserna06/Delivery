@@ -19,7 +19,6 @@
                     <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>
-                                <th>ID</th>
                                 <th>Descripción</th>
                                 <th>Tipo</th>
                                 <th>Fecha Reportada</th>
@@ -30,17 +29,17 @@
 
                         <tbody>
                             <tr *ngFor="let issue of issues">
-                                <td>{{ issue.id }}</td>
+                            
                                 <td>{{ issue.description }}</td>
                                 <td>{{ issue.issue_type }}</td>
                                 <td>{{ issue.date_reported | date:'short' }}</td>
                                 <td>{{ issue.status }}</td>
                                 <td>
                                     <!-- Botón Ver Fotos -->
-                                    <button class="btn btn-info btn-sm mr-2" [routerLink]="['/photos', issue.id]">
+                                    <button class="btn btn-info btn-sm"
+                                        [routerLink]="['/photos/issue', issue.id, 'moto', issue.motorcycle_id]">
                                         Ver Fotos ({{ issue.photos.length }})
                                     </button>
-
 
                                     <!-- Botón Editar -->
                                     <button class="btn btn-warning btn-sm mr-2"

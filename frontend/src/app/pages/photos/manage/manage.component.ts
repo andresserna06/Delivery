@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PhotoService } from 'src/app/services/photo.service';
-import { Photo } from 'src/app/models/photo.model';
+import { IssueService } from 'src/app/services/issue.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,41 +11,68 @@ import Swal from 'sweetalert2';
   styleUrls: ['./manage.component.scss']
 })
 export class ManagePhotosComponent implements OnInit {
-  issueId!: number;   // ID del issue actual
-  motoId!: number;    // ID de la moto asociada
-  allPhotos: Photo[] = [];
-  photos: Photo[] = [];
+
+  issueId!: number;
+  motoId!: number;
+  mode!: 'view' | 'create';
+
+  issue: any;
+  photoForm!: FormGroup;   // <-- FORMULARIO REACTIVO
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private photoService: PhotoService
+    private issueService: IssueService,
+    private photoService: PhotoService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    // Obtenemos issueId de la URL
-    const paramIssue = this.activatedRoute.snapshot.paramMap.get('issueId');
-    this.issueId = paramIssue ? Number(paramIssue) : 0;
+    // 1. Obtener los parámetros de la ruta
+    this.issueId = Number(this.activatedRoute.snapshot.paramMap.get('issueId'));
+    this.motoId = Number(this.activatedRoute.snapshot.paramMap.get('motoId'));
 
-    // Obtenemos motoId de queryParams
-    const paramMoto = this.activatedRoute.snapshot.queryParamMap.get('motoId');
-    this.motoId = paramMoto ? Number(paramMoto) : 0;
+    // 2. Determinar el modo según la URL
+    const url = this.router.url;
+    this.mode = url.includes('create') ? 'create' : 'view';
 
-    this.loadPhotos();
+    // 3. Crear formulario reactivo
+    this.photoForm = this.fb.group({
+      caption: ['', Validators.required],
+      image_url: ['', Validators.required],
+      issue_id: [this.issueId, Validators.required]
+    });
+
+    // 4. Cargar issue solo si estamos en modo view
+    if (this.mode === 'view') {
+      this.loadIssue();
+    }
   }
 
-  loadPhotos() {
-    this.photoService.list().subscribe({
-      next: photos => {
-        this.allPhotos = photos;
-        this.filterPhotosByIssue();
+
+  loadIssue() {
+    this.issueService.view(this.issueId).subscribe({
+      next: issue => {
+        this.issue = issue;
+        this.motoId = issue.motorcycle_id;
       },
-      error: err => console.error('Error loading photos:', err)
+      error: err => console.error(err)
     });
   }
 
-  filterPhotosByIssue() {
-    this.photos = this.allPhotos.filter(photo => photo.issue_id === this.issueId);
+  createPhoto() {
+    if (this.photoForm.invalid) {
+      Swal.fire('Error', 'Todos los campos son obligatorios', 'warning');
+      return;
+    }
+
+    this.photoService.create(this.photoForm.value).subscribe({
+      next: () => {
+        Swal.fire('Éxito', 'Foto creada correctamente', 'success');
+        this.router.navigate(['/photos', 'issue', this.issueId, 'moto', this.motoId]);
+      },
+      error: err => console.error(err)
+    });
   }
 
   deletePhoto(photoId: number) {
@@ -60,16 +88,15 @@ export class ManagePhotosComponent implements OnInit {
         this.photoService.delete(photoId).subscribe({
           next: () => {
             Swal.fire('Eliminada', 'Foto eliminada correctamente', 'success');
-            this.loadPhotos();
+            this.loadIssue();
           },
-          error: err => console.error('Error deleting photo:', err)
+          error: err => console.error(err)
         });
       }
     });
   }
 
   back() {
-    // Siempre volvemos al listado de issues de la moto actual
     this.router.navigate([`/issues/motoId/${this.motoId}`]);
   }
 }
