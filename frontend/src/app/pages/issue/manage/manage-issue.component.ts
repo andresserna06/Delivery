@@ -6,9 +6,9 @@ import { Issue } from 'src/app/models/issue.model';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-manage',
-  templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.scss']
+  selector: 'app-manage-issue',
+  templateUrl: './manage-issue.component.html',
+  styleUrls: ['./manage-issue.component.scss']
 })
 export class ManageComponent implements OnInit {
   mode!: number; // 1: view, 2: create, 3: update

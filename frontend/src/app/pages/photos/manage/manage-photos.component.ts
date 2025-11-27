@@ -7,8 +7,8 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-photos',
-  templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.scss']
+  templateUrl: './manage-photos.component.html',
+  styleUrls: ['./manage-photos.component.scss']
 })
 export class ManagePhotosComponent implements OnInit {
 
@@ -17,7 +17,10 @@ export class ManagePhotosComponent implements OnInit {
   mode!: 'view' | 'create';
 
   issue: any;
-  photoForm!: FormGroup;   // <-- FORMULARIO REACTIVO
+  photoForm!: FormGroup;
+
+  showModal = false;
+  selectedPhotoUrl = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,27 +31,22 @@ export class ManagePhotosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // 1. Obtener los parámetros de la ruta
     this.issueId = Number(this.activatedRoute.snapshot.paramMap.get('issueId'));
     this.motoId = Number(this.activatedRoute.snapshot.paramMap.get('motoId'));
 
-    // 2. Determinar el modo según la URL
-    const url = this.router.url;
-    this.mode = url.includes('create') ? 'create' : 'view';
+    this.mode = this.router.url.includes('create') ? 'create' : 'view';
 
-    // 3. Crear formulario reactivo
+    // Formulario solo con URL (lo que tu backend acepta)
     this.photoForm = this.fb.group({
       caption: ['', Validators.required],
-      image_url: ['', Validators.required],
+      image_url: ['', Validators.required],   // 👈 URL, no archivo
       issue_id: [this.issueId, Validators.required]
     });
 
-    // 4. Cargar issue solo si estamos en modo view
     if (this.mode === 'view') {
       this.loadIssue();
     }
   }
-
 
   loadIssue() {
     this.issueService.view(this.issueId).subscribe({
@@ -69,7 +67,7 @@ export class ManagePhotosComponent implements OnInit {
     this.photoService.create(this.photoForm.value).subscribe({
       next: () => {
         Swal.fire('Éxito', 'Foto creada correctamente', 'success');
-        this.router.navigate(['/photos', 'issue', this.issueId, 'moto', this.motoId]);
+        this.router.navigate(['/photos/issue', this.issueId, 'moto', this.motoId]);
       },
       error: err => console.error(err)
     });
@@ -94,6 +92,15 @@ export class ManagePhotosComponent implements OnInit {
         });
       }
     });
+  }
+
+  openModal(url: string) {
+    this.selectedPhotoUrl = url;
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 
   back() {

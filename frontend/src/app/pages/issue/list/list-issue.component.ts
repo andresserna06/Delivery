@@ -5,9 +5,9 @@ import { Issue } from 'src/app/models/issue.model';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-issue-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  selector: 'app-list-issue',
+  templateUrl: './list-issue.component.html',
+  styleUrls: ['./list-issue.component.scss']
 })
 export class ListComponent implements OnInit {
 
