@@ -1,0 +1,72 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0" *ngIf="mode === 2">Crear Producto</h3>
+          <h3 class="mb-0" *ngIf="mode === 3">Editar Producto</h3>
+          <h3 class="mb-0" *ngIf="mode === 1">Detalle Producto</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="theFormGroup" (ngSubmit)="mode === 2 ? create() : update()">
+
+            <!-- ID (solo lectura) -->
+            <div class="mb-3" *ngIf="mode !== 2">
+              <label>ID</label>
+              <input type="text" class="form-control" formControlName="id" readonly />
+            </div>
+
+            <!-- Nombre -->
+            <div class="mb-3">
+              <label>Nombre</label>
+              <input type="text" class="form-control" formControlName="name" [readonly]="mode === 1" />
+              <div *ngIf="getTheFormGroup.name.errors && (getTheFormGroup.name.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.name.errors.required">Nombre es requerido</small>
+                <small *ngIf="getTheFormGroup.name.errors.minlength">Mínimo 2 caracteres</small>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+              <label>Descripción</label>
+              <textarea class="form-control" formControlName="description" rows="3" [readonly]="mode === 1"></textarea>
+              <div *ngIf="getTheFormGroup.description.errors && (getTheFormGroup.description.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.description.errors.required">Descripción es requerida</small>
+              </div>
+            </div>
+
+            <!-- Categoría -->
+            <div class="mb-3">
+              <label>Categoría</label>
+              <input type="text" class="form-control" formControlName="category" [readonly]="mode === 1" />
+              <div *ngIf="getTheFormGroup.category.errors && (getTheFormGroup.category.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.category.errors.required">Categoría es requerida</small>
+              </div>
+            </div>
+
+            <!-- Precio -->
+            <div class="mb-3">
+              <label>Precio</label>
+              <input type="number" class="form-control" formControlName="price" [readonly]="mode === 1" />
+              <div *ngIf="getTheFormGroup.price.errors && (getTheFormGroup.price.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.price.errors.required">Precio es requerido</small>
+                <small *ngIf="getTheFormGroup.price.errors.min">Precio mínimo 1</small>
+              </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="botones">
+              <button type="button" class="btn btn-secondary" (click)="back()">Regresar</button>
+              <button type="submit" class="btn" [ngClass]="mode === 2 ? 'btn-success' : 'btn-warning'" [disabled]="theFormGroup.invalid || mode === 1">
+                {{ mode === 2 ? 'Crear' : 'Actualizar' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -39,3 +39,9 @@ testem.log
 .DS_Store
 Thumbs.db
 package-lock.json
+
+backend/venv/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
