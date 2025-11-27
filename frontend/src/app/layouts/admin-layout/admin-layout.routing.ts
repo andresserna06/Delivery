@@ -43,7 +43,7 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/products/products.module').then(m => m.ProductsModule)
             },
             {
-                path: 'menu',
+                path: 'menus',
                 canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
                 loadChildren: () => import('src/app/pages/menus/menus.module').then(m => m.MenusModule)
             },
