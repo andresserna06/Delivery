@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
 import { Product } from 'src/app/models/product.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -12,7 +13,9 @@ export class ListComponent implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -36,4 +39,10 @@ export class ListComponent implements OnInit {
       this.products = this.products.filter(p => p.id !== id);
     });
   }
+  updateProduct(id: number) {
+    this.router.navigate(['/products/update', id]);
+  }
+  create() {
+    this.router.navigate(['/products/create']);
+}
 }
