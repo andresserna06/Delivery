@@ -1,0 +1,146 @@
+<!-- Header Argon -->
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+
+                <!-- =======================
+                     HEADER
+                ======================= -->
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+
+                    <!-- Título modo VIEW -->
+                    <h3 class="mb-0" *ngIf="mode === 'view'">
+                        Fotos del Problema: {{ issue?.description }}
+                    </h3>
+
+                    <!-- Título modo CREATE -->
+                    <h3 class="mb-0" *ngIf="mode === 'create'">
+                        Subir nueva Foto
+                    </h3>
+
+                    <!-- Botón crear -->
+                    <button *ngIf="mode === 'view'" class="btn btn-primary btn-sm"
+                        [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'create']">
+                        + Subir Foto
+                    </button>
+                </div>
+
+
+                <!-- =======================
+                     CARD BODY
+                ======================= -->
+                <div class="card-body">
+
+                    <!-- =======================
+                         MODE: VIEW
+                    ======================= -->
+                    <div *ngIf="mode === 'view'">
+
+                        <!-- ====== TABLA DESKTOP ====== -->
+                        <table class="table table-bordered table-desktop table-argon-responsive">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Descripción</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let p of issue?.photos">
+                                    <td data-label="Imagen">
+                                        <img [src]="p.image_url" class="photo-table-img"
+                                            (click)="openModal(p.image_url)" style="cursor:pointer;">
+                                    </td>
+
+                                    <td data-label="Descripción">
+                                        {{ p.caption }}
+                                    </td>
+
+                                    <td data-label="Opciones">
+                                        <button class="btn btn-danger btn-sm" (click)="deletePhoto(p.id)">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <!-- ====== CARDS MOBILE/TABLET ====== -->
+                        <div class="cards-mobile">
+                            <div *ngFor="let p of issue?.photos" class="card mb-3 shadow-sm">
+                                <div class="card-body">
+
+                                    <img [src]="p.image_url" class="photo-card-img mb-2"
+                                        (click)="openModal(p.image_url)" style="cursor:pointer;">
+
+                                    <h5 class="card-title">{{ p.caption }}</h5>
+
+                                    <button class="btn btn-danger btn-sm btn-block mt-2" (click)="deletePhoto(p.id)">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary mt-3" (click)="back()">Volver</button>
+
+                    </div> <!-- END VIEW -->
+
+
+
+                    <!-- =======================
+                         MODE: CREATE
+                    ======================= -->
+                    <div *ngIf="mode === 'create'">
+                        <form [formGroup]="photoForm">
+
+                            <div class="row mb-3">
+                                <div class="col-3">Descripción</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" formControlName="caption">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-3">URL de la imagen</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" formControlName="image_url"
+                                        placeholder="Pega aquí la URL de la imagen (https://...)">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-3"></div>
+                                <div class="col-9">
+                                    <button class="btn btn-success" (click)="createPhoto()">Guardar</button>
+                                    <button class="btn btn-secondary"
+                                        [routerLink]="['/photos/issue', issueId, 'moto', motoId]">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div> <!-- END CREATE -->
+
+                </div> <!-- END CARD BODY -->
+
+
+
+                <!-- =======================
+                     MODAL
+                ======================= -->
+                <div class="custom-modal" *ngIf="showModal" (click)="closeModal()">
+                    <img [src]="selectedPhotoUrl" class="modal-img" (click)="$event.stopPropagation()">
+                    <button class="close-btn" (click)="closeModal()">×</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

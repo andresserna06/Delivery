@@ -19,10 +19,12 @@ export class PhotoService {
     return this.http.get<Photo>(`${environment.url_backend}/photos/${id}`);
   }
 
-  create(data: Photo): Observable<Photo> {
-    delete data.id;
+  // Cambiado para aceptar FormData
+  create(data: FormData): Observable<Photo> {
+    // ¡No pongas headers manuales!
     return this.http.post<Photo>(`${environment.url_backend}/photos`, data);
   }
+
 
   update(data: Photo): Observable<Photo> {
     return this.http.put<Photo>(`${environment.url_backend}/photos/${data.id}`, data);

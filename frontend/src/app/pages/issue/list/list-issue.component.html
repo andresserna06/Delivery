@@ -1,0 +1,94 @@
+<!-- Header Argon -->
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+
+                <!-- Header -->
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Problemas de la Moto {{ motoId }}</h3>
+
+                    <button [routerLink]="['/issues/create', motoId]" class="btn btn-primary btn-sm">
+                        + Registrar Problema
+                    </button>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body">
+
+                    <!-- ============= TABLA (solo > 1024px) ============= -->
+                    <div class="table-desktop">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha Reportada</th>
+                                    <th>Estado</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let issue of issues">
+                                    <td>{{ issue.description }}</td>
+                                    <td>{{ issue.issue_type }}</td>
+                                    <td>{{ issue.date_reported | date:'short' }}</td>
+                                    <td>{{ issue.status }}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm"
+                                            [routerLink]="['/photos/issue', issue.id, 'moto', issue.motorcycle_id]">
+                                            Ver Fotos ({{ issue.photos.length }})
+                                        </button>
+
+                                        <button class="btn btn-warning btn-sm"
+                                            [routerLink]="['/issues/update', issue.id]">
+                                            Editar
+                                        </button>
+
+                                        <button class="btn btn-danger btn-sm" (click)="delete(issue.id)">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ============= CARDS (<= 1024px) ============= -->
+                    <div class="cards-mobile">
+                        <div *ngFor="let issue of issues" class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ issue.description }}</h5>
+
+                                <p class="mb-1"><strong>Tipo:</strong> {{ issue.issue_type }}</p>
+                                <p class="mb-1"><strong>Fecha:</strong> {{ issue.date_reported | date:'short' }}</p>
+                                <p class="mb-1"><strong>Estado:</strong> {{ issue.status }}</p>
+
+                                <div class="mt-2">
+                                    <button class="btn btn-info btn-sm btn-block"
+                                        [routerLink]="['/photos/issue', issue.id, 'moto', issue.motorcycle_id]">
+                                        Ver Fotos ({{ issue.photos.length }})
+                                    </button>
+
+                                    <button class="btn btn-warning btn-sm btn-block mt-1"
+                                        [routerLink]="['/issues/update', issue.id]">
+                                        Editar
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm btn-block mt-1" (click)="delete(issue.id)">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- END CARD BODY -->
+
+            </div>
+        </div>
+    </div>
+</div>

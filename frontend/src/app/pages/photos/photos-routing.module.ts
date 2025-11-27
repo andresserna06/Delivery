@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ManagePhotosComponent } from './manage/manage.component';
+import { ManagePhotosComponent } from './manage/manage-photos.component';
 
 const routes: Routes = [
-  { path: ':issueId', component: ManagePhotosComponent },
-  { path: 'create/:issueId', component: ManagePhotosComponent } // Cada issue tiene sus fotos
+  {
+    path: 'issue/:issueId/moto/:motoId',
+    component: ManagePhotosComponent        // Ver fotos
+  },
+  {
+    path: 'issue/:issueId/moto/:motoId/create',
+    component: ManagePhotosComponent        // Crear foto
+  }
 ];
 
 @NgModule({
