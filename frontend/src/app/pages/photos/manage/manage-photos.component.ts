@@ -14,10 +14,11 @@ export class ManagePhotosComponent implements OnInit {
 
   issueId!: number;
   motoId!: number;
-  mode!: 'view' | 'create';
+  mode!: 'view' | 'create' | 'edit';
 
   issue: any;
   photoForm!: FormGroup;
+  selectedPhotoId!: number;
 
   showModal = false;
   selectedPhotoUrl = '';
@@ -34,26 +35,38 @@ export class ManagePhotosComponent implements OnInit {
     this.issueId = Number(this.activatedRoute.snapshot.paramMap.get('issueId'));
     this.motoId = Number(this.activatedRoute.snapshot.paramMap.get('motoId'));
 
-    this.mode = this.router.url.includes('create') ? 'create' : 'view';
-
-    // Formulario solo con URL (lo que tu backend acepta)
-    this.photoForm = this.fb.group({
-      caption: ['', Validators.required],
-      image_url: ['', Validators.required],   // 👈 URL, no archivo
-      issue_id: [this.issueId, Validators.required]
-    });
-
-    if (this.mode === 'view') {
+    if (this.router.url.includes('create')) {
+      this.mode = 'create';
+    } else if (this.router.url.includes('edit')) {
+      this.mode = 'edit';
+      this.selectedPhotoId = Number(this.activatedRoute.snapshot.paramMap.get('photoId'));
+      this.loadPhoto(this.selectedPhotoId);
+    } else {
+      this.mode = 'view';
       this.loadIssue();
     }
+
+    this.photoForm = this.fb.group({
+      caption: ['', Validators.required],
+      image_url: ['', Validators.required],
+      issue_id: [this.issueId, Validators.required]
+    });
   }
 
   loadIssue() {
     this.issueService.view(this.issueId).subscribe({
-      next: issue => {
-        this.issue = issue;
-        this.motoId = issue.motorcycle_id;
-      },
+      next: issue => this.issue = issue,
+      error: err => console.error(err)
+    });
+  }
+
+  loadPhoto(photoId: number) {
+    this.photoService.view(photoId).subscribe({
+      next: photo => this.photoForm.patchValue({
+        caption: photo.caption,
+        image_url: photo.image_url,
+        issue_id: photo.issue_id
+      }),
       error: err => console.error(err)
     });
   }
@@ -67,6 +80,21 @@ export class ManagePhotosComponent implements OnInit {
     this.photoService.create(this.photoForm.value).subscribe({
       next: () => {
         Swal.fire('Éxito', 'Foto creada correctamente', 'success');
+        this.router.navigate(['/photos/issue', this.issueId, 'moto', this.motoId]);
+      },
+      error: err => console.error(err)
+    });
+  }
+
+  updatePhoto() {
+    if (this.photoForm.invalid) {
+      Swal.fire('Error', 'Todos los campos son obligatorios', 'warning');
+      return;
+    }
+
+    this.photoService.update(this.selectedPhotoId, this.photoForm.value).subscribe({
+      next: () => {
+        Swal.fire('Éxito', 'Foto actualizada correctamente', 'success');
         this.router.navigate(['/photos/issue', this.issueId, 'moto', this.motoId]);
       },
       error: err => console.error(err)

@@ -9,28 +9,27 @@ import { Photo } from '../models/photo.model';
 })
 export class PhotoService {
 
+  private baseUrl = `${environment.url_backend}/photos`;
+
   constructor(private http: HttpClient) { }
 
   list(): Observable<Photo[]> {
-    return this.http.get<Photo[]>(`${environment.url_backend}/photos`);
+    return this.http.get<Photo[]>(this.baseUrl);
   }
 
   view(id: number): Observable<Photo> {
-    return this.http.get<Photo>(`${environment.url_backend}/photos/${id}`);
+    return this.http.get<Photo>(`${this.baseUrl}/${id}`);
   }
 
-  // Cambiado para aceptar FormData
-  create(data: FormData): Observable<Photo> {
-    // ¡No pongas headers manuales!
-    return this.http.post<Photo>(`${environment.url_backend}/photos`, data);
+  create(data: FormData | any): Observable<Photo> {
+    return this.http.post<Photo>(this.baseUrl, data);
   }
 
-
-  update(data: Photo): Observable<Photo> {
-    return this.http.put<Photo>(`${environment.url_backend}/photos/${data.id}`, data);
+  update(id: number, data: FormData | any): Observable<Photo> {
+    return this.http.put<Photo>(`${this.baseUrl}/${id}`, data);
   }
 
-  delete(id: number) {
-    return this.http.delete(`${environment.url_backend}/photos/${id}`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

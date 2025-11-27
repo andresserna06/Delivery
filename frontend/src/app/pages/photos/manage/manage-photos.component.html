@@ -7,8 +7,8 @@
             <div class="card shadow">
 
                 <!-- =======================
-                     HEADER
-                ======================= -->
+             HEADER
+        ======================= -->
                 <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
 
                     <!-- Título modo VIEW -->
@@ -16,9 +16,12 @@
                         Fotos del Problema: {{ issue?.description }}
                     </h3>
 
-                    <!-- Título modo CREATE -->
+                    <!-- Título modo CREATE/EDIT -->
                     <h3 class="mb-0" *ngIf="mode === 'create'">
                         Subir nueva Foto
+                    </h3>
+                    <h3 class="mb-0" *ngIf="mode === 'edit'">
+                        Editar Foto
                     </h3>
 
                     <!-- Botón crear -->
@@ -28,15 +31,14 @@
                     </button>
                 </div>
 
-
                 <!-- =======================
-                     CARD BODY
-                ======================= -->
+             CARD BODY
+        ======================= -->
                 <div class="card-body">
 
                     <!-- =======================
-                         MODE: VIEW
-                    ======================= -->
+               MODE: VIEW
+          ======================= -->
                     <div *ngIf="mode === 'view'">
 
                         <!-- ====== TABLA DESKTOP ====== -->
@@ -48,19 +50,20 @@
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 <tr *ngFor="let p of issue?.photos">
                                     <td data-label="Imagen">
                                         <img [src]="p.image_url" class="photo-table-img"
                                             (click)="openModal(p.image_url)" style="cursor:pointer;">
                                     </td>
-
                                     <td data-label="Descripción">
                                         {{ p.caption }}
                                     </td>
-
                                     <td data-label="Opciones">
+                                        <button class="btn btn-warning btn-sm"
+                                            [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'edit', p.id]">
+                                            Editar
+                                        </button>
                                         <button class="btn btn-danger btn-sm" (click)="deletePhoto(p.id)">
                                             Eliminar
                                         </button>
@@ -68,7 +71,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
 
                         <!-- ====== CARDS MOBILE/TABLET ====== -->
                         <div class="cards-mobile">
@@ -80,7 +82,11 @@
 
                                     <h5 class="card-title">{{ p.caption }}</h5>
 
-                                    <button class="btn btn-danger btn-sm btn-block mt-2" (click)="deletePhoto(p.id)">
+                                    <button class="btn btn-warning btn-sm btn-block mt-1"
+                                        [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'edit', p.id]">
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-block mt-1" (click)="deletePhoto(p.id)">
                                         Eliminar
                                     </button>
                                 </div>
@@ -91,12 +97,10 @@
 
                     </div> <!-- END VIEW -->
 
-
-
                     <!-- =======================
-                         MODE: CREATE
-                    ======================= -->
-                    <div *ngIf="mode === 'create'">
+               MODE: CREATE / EDIT
+          ======================= -->
+                    <div *ngIf="mode === 'create' || mode === 'edit'">
                         <form [formGroup]="photoForm">
 
                             <div class="row mb-3">
@@ -117,7 +121,10 @@
                             <div class="row mt-3">
                                 <div class="col-3"></div>
                                 <div class="col-9">
-                                    <button class="btn btn-success" (click)="createPhoto()">Guardar</button>
+                                    <button class="btn btn-success"
+                                        (click)="mode==='create'? createPhoto() : updatePhoto()">
+                                        Guardar
+                                    </button>
                                     <button class="btn btn-secondary"
                                         [routerLink]="['/photos/issue', issueId, 'moto', motoId]">
                                         Cancelar
@@ -126,15 +133,13 @@
                             </div>
 
                         </form>
-                    </div> <!-- END CREATE -->
+                    </div> <!-- END CREATE / EDIT -->
 
                 </div> <!-- END CARD BODY -->
 
-
-
                 <!-- =======================
-                     MODAL
-                ======================= -->
+             MODAL
+        ======================= -->
                 <div class="custom-modal" *ngIf="showModal" (click)="closeModal()">
                     <img [src]="selectedPhotoUrl" class="modal-img" (click)="$event.stopPropagation()">
                     <button class="close-btn" (click)="closeModal()">×</button>
