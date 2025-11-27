@@ -7,12 +7,13 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { AuthenticationGuard } from 'src/app/guards/authentication.guard';
 
+
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'tables',         component: TablesComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'user-profile', component: UserProfileComponent },
+    { path: 'tables', component: TablesComponent },
+    { path: 'icons', component: IconsComponent },
+    { path: 'maps', component: MapsComponent },
     {
         path: '',
         children: [
@@ -41,6 +42,20 @@ export const AdminLayoutRoutes: Routes = [
                 canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
                 loadChildren: () => import('src/app/pages/customers/customers.module').then(m => m.CustomersModule)
             },
+                path: 'orders',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/orders/orders.module').then(m => m.OrdersModule)
+            },
+            {
+                path: 'issues',
+                loadChildren: () => import('src/app/pages/issue/issue.module')
+                    .then(m => m.IssueModule)
+            },
+            {
+                path: 'photos',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/photos/photos.module').then(m => m.PhotosModule)
+            }
 
         ]
     }
