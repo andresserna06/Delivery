@@ -5,7 +5,7 @@ import { ManageComponent } from './manage/manage-issue.component';
 
 const routes: Routes = [
   // Listado de issues de una moto
-  { path: 'motoId/:motoId', component: ListComponent },
+  { path: 'moto/:motoId', component: ListComponent },
 
   // Crear issue → necesitamos saber la motoId
   { path: 'create/:motoId', component: ManageComponent },

@@ -39,9 +39,11 @@ export class ManagePhotosComponent implements OnInit {
     this.issueId = Number(this.activatedRoute.snapshot.paramMap.get('issueId'));
     this.motoId = Number(this.activatedRoute.snapshot.paramMap.get('motoId'));
 
+    // FormGroup con taken_at opcional
     this.photoForm = this.fb.group({
       caption: ['', Validators.required],
-      issue_id: [this.issueId, Validators.required]
+      issue_id: [this.issueId, Validators.required],
+      taken_at: ['']  // fecha opcional
     });
 
     if (this.router.url.includes('edit')) {
@@ -68,17 +70,16 @@ export class ManagePhotosComponent implements OnInit {
     });
   }
 
-  // Nueva función para cargar el issue y extraer la foto a editar
   loadIssueForEdit(photoId: number) {
     this.issueService.view(this.issueId).subscribe({
       next: issue => {
         this.issue = issue;
-
         const photo = issue.photos.find((p: any) => p.id === photoId);
         if (photo) {
           this.photoForm.patchValue({
             caption: photo.caption,
-            issue_id: photo.issue_id
+            issue_id: photo.issue_id,
+            taken_at: photo.taken_at ? photo.taken_at.split('T')[0] : '' // fecha para input
           });
           this.imagePreview = this.getPhotoUrl(photo.image_url);
         } else {
@@ -111,13 +112,13 @@ export class ManagePhotosComponent implements OnInit {
       return;
     }
 
-    this.photoService.uploadPhoto(
-      { caption: this.photoForm.get('caption')!.value, issue_id: this.issueId },
-      this.selectedFile
-    ).subscribe({
-      next: () => Swal.fire('Éxito', 'Foto creada correctamente', 'success').then(() => this.navigateToView()),
-      error: () => Swal.fire('Error', 'No se pudo crear la foto', 'error')
-    });
+    // Enviar directamente todo el form, incluido taken_at
+    this.photoService.uploadPhoto(this.photoForm.value, this.selectedFile)
+      .subscribe({
+        next: () => Swal.fire('Éxito', 'Foto creada correctamente', 'success')
+          .then(() => this.navigateToView()),
+        error: () => Swal.fire('Error', 'No se pudo crear la foto', 'error')
+      });
   }
 
   updatePhoto() {
@@ -126,11 +127,16 @@ export class ManagePhotosComponent implements OnInit {
       return;
     }
 
-    this.photoService.updatePhotoDescription(this.selectedPhotoId, this.photoForm.get('caption')!.value)
-      .subscribe({
-        next: () => Swal.fire('Éxito', 'Foto actualizada correctamente', 'success').then(() => this.navigateToView()),
-        error: () => Swal.fire('Error', 'No se pudo actualizar la foto', 'error')
-      });
+    // Actualizar caption y taken_at
+    this.photoService.updatePhoto(
+      this.selectedPhotoId,
+      this.photoForm.value.caption,
+      this.photoForm.value.taken_at
+    ).subscribe({
+      next: () => Swal.fire('Éxito', 'Foto actualizada correctamente', 'success')
+        .then(() => this.navigateToView()),
+      error: () => Swal.fire('Error', 'No se pudo actualizar la foto', 'error')
+    });
   }
 
   deletePhoto(photoId: number) {
@@ -144,7 +150,8 @@ export class ManagePhotosComponent implements OnInit {
     }).then(result => {
       if (result.isConfirmed) {
         this.photoService.delete(photoId).subscribe({
-          next: () => Swal.fire('Eliminada', 'Foto eliminada correctamente', 'success').then(() => this.loadIssue()),
+          next: () => Swal.fire('Eliminada', 'Foto eliminada correctamente', 'success')
+            .then(() => this.loadIssue()),
           error: () => Swal.fire('Error', 'No se pudo eliminar la foto', 'error')
         });
       }
@@ -160,7 +167,7 @@ export class ManagePhotosComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate([`/issues/moto/${this.motoId}`]);
+    this.router.navigate([`/issues/moto/${this.motoId}`]); // ruta consistente
   }
 
   onSubmit() {

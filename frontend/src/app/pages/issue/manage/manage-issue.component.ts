@@ -121,7 +121,7 @@ export class ManageComponent implements OnInit {
 
   back() {
     // Volvemos al listado de issues de la moto
-    this.router.navigate([`/issues/motoId/${this.motoId}`]);
+    this.router.navigate([`/issues/moto/${this.motoId}`]);
   }
 
 }

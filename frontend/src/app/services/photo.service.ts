@@ -36,8 +36,8 @@ export class PhotoService {
   }
 
   // Actualizar solo la descripción (JSON)
-  updatePhotoDescription(id: number, caption: string): Observable<Photo> {
-    return this.http.put<Photo>(`${this.baseUrl}/${id}`, { caption });
+  updatePhoto(id: number, caption: string, taken_at: string): Observable<Photo> {
+    return this.http.put<Photo>(`${this.baseUrl}/${id}`, { caption, taken_at });
   }
 
   // Eliminar foto
