@@ -1,151 +1,107 @@
-<!-- Header Argon -->
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
-
-<div class="container-fluid mt--7">
-    <div class="row">
-        <div class="col">
-            <div class="card shadow">
-
-                <!-- =======================
-             HEADER
-        ======================= -->
-                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-
-                    <!-- Título modo VIEW -->
-                    <h3 class="mb-0" *ngIf="mode === 'view'">
-                        Fotos del Problema: {{ issue?.description }}
-                    </h3>
-
-                    <!-- Título modo CREATE/EDIT -->
-                    <h3 class="mb-0" *ngIf="mode === 'create'">
-                        Subir nueva Foto
-                    </h3>
-                    <h3 class="mb-0" *ngIf="mode === 'edit'">
-                        Editar Foto
-                    </h3>
-
-                    <!-- Botón crear -->
-                    <button *ngIf="mode === 'view'" class="btn btn-primary btn-sm"
-                        [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'create']">
-                        + Subir Foto
-                    </button>
-                </div>
-
-                <!-- =======================
-             CARD BODY
-        ======================= -->
-                <div class="card-body">
-
-                    <!-- =======================
-               MODE: VIEW
-          ======================= -->
-                    <div *ngIf="mode === 'view'">
-
-                        <!-- ====== TABLA DESKTOP ====== -->
-                        <table class="table table-bordered table-desktop table-argon-responsive">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Descripción</th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let p of issue?.photos">
-                                    <td data-label="Imagen">
-                                        <img [src]="p.image_url" class="photo-table-img"
-                                            (click)="openModal(p.image_url)" style="cursor:pointer;">
-                                    </td>
-                                    <td data-label="Descripción">
-                                        {{ p.caption }}
-                                    </td>
-                                    <td data-label="Opciones">
-                                        <button class="btn btn-warning btn-sm"
-                                            [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'edit', p.id]">
-                                            Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" (click)="deletePhoto(p.id)">
-                                            Eliminar
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- ====== CARDS MOBILE/TABLET ====== -->
-                        <div class="cards-mobile">
-                            <div *ngFor="let p of issue?.photos" class="card mb-3 shadow-sm">
-                                <div class="card-body">
-
-                                    <img [src]="p.image_url" class="photo-card-img mb-2"
-                                        (click)="openModal(p.image_url)" style="cursor:pointer;">
-
-                                    <h5 class="card-title">{{ p.caption }}</h5>
-
-                                    <button class="btn btn-warning btn-sm btn-block mt-1"
-                                        [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'edit', p.id]">
-                                        Editar
-                                    </button>
-                                    <button class="btn btn-danger btn-sm btn-block mt-1" (click)="deletePhoto(p.id)">
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-secondary mt-3" (click)="back()">Volver</button>
-
-                    </div> <!-- END VIEW -->
-
-                    <!-- =======================
-               MODE: CREATE / EDIT
-          ======================= -->
-                    <div *ngIf="mode === 'create' || mode === 'edit'">
-                        <form [formGroup]="photoForm">
-
-                            <div class="row mb-3">
-                                <div class="col-3">Descripción</div>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" formControlName="caption">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-3">URL de la imagen</div>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" formControlName="image_url"
-                                        placeholder="Pega aquí la URL de la imagen (https://...)">
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-3"></div>
-                                <div class="col-9">
-                                    <button class="btn btn-success"
-                                        (click)="mode==='create'? createPhoto() : updatePhoto()">
-                                        Guardar
-                                    </button>
-                                    <button class="btn btn-secondary"
-                                        [routerLink]="['/photos/issue', issueId, 'moto', motoId]">
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div> <!-- END CREATE / EDIT -->
-
-                </div> <!-- END CARD BODY -->
-
-                <!-- =======================
-             MODAL
-        ======================= -->
-                <div class="custom-modal" *ngIf="showModal" (click)="closeModal()">
-                    <img [src]="selectedPhotoUrl" class="modal-img" (click)="$event.stopPropagation()">
-                    <button class="close-btn" (click)="closeModal()">×</button>
-                </div>
-
-            </div>
+<!-- HEADER ARGON -->
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h3 class="mb-0" *ngIf="mode === 'view'">Fotos del Problema: {{ issue?.description }}</h3>
+          <h3 class="mb-0" *ngIf="mode === 'create'">Subir nueva Foto</h3>
+          <h3 class="mb-0" *ngIf="mode === 'edit'">Editar Foto</h3>
         </div>
+        <div class="col-lg-6 col-5 text-right">
+          <button *ngIf="mode === 'view'" class="btn btn-primary btn-sm"
+                  [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'create']">
+            + Subir Foto
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-body">
+
+          <!-- ===================
+               MODE: VIEW
+          =================== -->
+          <div *ngIf="mode === 'view'">
+            <div class="row">
+              <div *ngFor="let p of issue?.photos" class="col-md-4 col-12 mb-3">
+                <div class="card shadow-sm">
+                  <div class="card-body text-center">
+                    <img [src]="getPhotoUrl(p.image_url)" class="photo-card-img mb-2"
+                         (click)="openModal(getPhotoUrl(p.image_url))"
+                         style="cursor:pointer;">
+                    <h5 class="card-title">{{ p.caption }}</h5>
+                    <button class="btn btn-warning btn-sm btn-block mt-1"
+                            [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'edit', p.id]">
+                      Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm btn-block mt-1"
+                            (click)="deletePhoto(p.id)">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-secondary mt-3" (click)="back()">Volver</button>
+          </div>
+
+          <!-- ===================
+               MODE: CREATE / EDIT
+          =================== -->
+          <div *ngIf="mode === 'create' || mode === 'edit'">
+            <form [formGroup]="photoForm" (ngSubmit)="onSubmit()">
+
+              <!-- Descripción -->
+              <div class="row mb-3">
+                <div class="col-3">Descripción</div>
+                <div class="col-9">
+                  <input type="text" class="form-control" formControlName="caption">
+                </div>
+              </div>
+
+              <!-- Seleccionar archivo (solo en create) -->
+              <div class="row mb-3" *ngIf="mode === 'create'">
+                <div class="col-3">Seleccionar Imagen</div>
+                <div class="col-9">
+                  <input type="file" class="form-control" (change)="onFileSelected($event)">
+                </div>
+              </div>
+
+              <!-- Preview -->
+              <div *ngIf="imagePreview" class="text-center mb-3">
+                <img [src]="imagePreview" class="photo-preview-img"
+                     (click)="openModal(imagePreview)">
+              </div>
+
+              <!-- Botones -->
+              <div class="row mt-3">
+                <div class="col-3"></div>
+                <div class="col-9">
+                  <button type="submit" class="btn btn-success" *ngIf="mode==='create'">Crear</button>
+                  <button type="submit" class="btn btn-warning" *ngIf="mode==='edit'">Actualizar</button>
+                  <button type="button" class="btn btn-secondary"
+                          [routerLink]="['/photos/issue', issueId, 'moto', motoId]">Cancelar</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+        <!-- MODAL -->
+        <div class="custom-modal" *ngIf="showModal" (click)="closeModal()">
+          <img [src]="selectedPhotoUrl" class="modal-img" (click)="$event.stopPropagation()">
+          <button class="close-btn" (click)="closeModal()">×</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
