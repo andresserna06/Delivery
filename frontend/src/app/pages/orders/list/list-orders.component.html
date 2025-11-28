@@ -1,0 +1,147 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Filtros -->
+    <div class="row mb-3">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <h3 class="mb-0">Filtros</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Tipo de Filtro</label>
+                            <select class="form-control" [(ngModel)]="filterType" (change)="filterValue = ''">
+                                <option value="none">Sin Filtro</option>
+                                <option value="customer">Por Cliente</option>
+                                <option value="motorcycle">Por Motocicleta</option>
+                                <option value="status">Por Estado</option>
+                            </select>
+                        </div>
+
+                        <!-- SELECT para clientes -->
+                        <div class="col-md-4" *ngIf="filterType === 'customer'">
+                            <label>Seleccione Cliente</label>
+                            <select class="form-control" [(ngModel)]="filterValue">
+                                <option value="">Seleccione un cliente...</option>
+                                <option *ngFor="let customer of customers" [value]="customer.id">
+                                    {{ customer.name }} - {{ customer.email }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- SELECT para motocicletas -->
+                        <div class="col-md-4" *ngIf="filterType === 'motorcycle'">
+                            <label>Seleccione Motocicleta</label>
+                            <select class="form-control" [(ngModel)]="filterValue">
+                                <option value="">Seleccione una motocicleta...</option>
+                                <option *ngFor="let motorcycle of motorcycles" [value]="motorcycle.id">
+                                    ID: {{ motorcycle.id }} - {{ motorcycle.brand }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Select para estado -->
+                        <div class="col-md-4" *ngIf="filterType === 'status'">
+                            <label>Estado</label>
+                            <select class="form-control" [(ngModel)]="filterValue">
+                                <option value="">Seleccione...</option>
+                                <option value="pending">Pendiente</option>
+                                <option value="in_progress">En Progreso</option>
+                                <option value="completed">Completada</option>
+                                <option value="cancelled">Cancelada</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-primary mr-2" (click)="applyFilter()">Aplicar Filtro</button>
+                            <button class="btn btn-secondary" (click)="clearFilter()">Limpiar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Órdenes</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button class="btn btn-success" (click)="create()">
+                                <i class="fa fa-plus"></i> Nueva Orden
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Vista Desktop y Móvil con misma tabla -->
+                    <div class="table-responsive">
+                        <table class="table table-hover table-argon-responsive">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Producto</th>
+                                    <th>Restaurante</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Dirección</th>
+                                    <th>Fecha</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let order of filteredOrders">
+                                    <td data-label="ID">{{ order.id }}</td>
+                                    <td data-label="Cliente">
+                                        <div>{{ order.customer?.name }}</div>
+                                        <small class="text-muted">{{ order.customer?.email }}</small>
+                                    </td>
+                                    <td data-label="Producto">
+                                        <div>{{ order.menu?.product?.name }}</div>
+                                        <small class="text-muted">{{ order.menu?.product?.category }}</small>
+                                    </td>
+                                    <td data-label="Restaurante">{{ order.menu?.restaurant?.name }}</td>
+                                    <td data-label="Cantidad">{{ order.quantity }}</td>
+                                    <td data-label="Total">${{ order.total_price?.toFixed(2) }}</td>
+                                    <td data-label="Estado">
+                                        <span [class]="getStatusClass(order.status)">
+                                            {{ getStatusText(order.status) }}
+                                        </span>
+                                    </td>
+                                    <td data-label="Dirección">
+                                        <div>{{ order.address?.street }}</div>
+                                        <small class="text-muted">{{ order.address?.city }}, {{ order.address?.state
+                                            }}</small>
+                                    </td>
+                                    <td data-label="Fecha">
+                                        <small>{{ order.created_at | date:'short' }}</small>
+                                    </td>
+                                    <td data-label="Opciones">
+                                        <button class="btn btn-warning btn-sm mr-2"
+                                            (click)="edit(order.id)">Editar</button>
+                                        <button class="btn btn-danger btn-sm"
+                                            (click)="delete(order.id)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div *ngIf="filteredOrders.length === 0" class="text-center py-4">
+                            <p class="text-muted">No hay órdenes disponibles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

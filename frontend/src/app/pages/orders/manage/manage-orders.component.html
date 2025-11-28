@@ -1,0 +1,254 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <h3 class="mb-0" *ngIf="mode==1">Detalle de Orden</h3>
+                    <h3 class="mb-0" *ngIf="mode==2">Crear Orden</h3>
+                    <h3 class="mb-0" *ngIf="mode==3">Actualizar Orden</h3>
+                </div>
+                <div class="card-body">
+                    <form class="form" [formGroup]="theFormGroup">
+                        <div class="card-body container">
+
+                            <!-- ID -->
+                            <div class="row">
+                                <div class="col-3">ID</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" formControlName="id" disabled>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Sección: Información del Pedido -->
+                            <h5 class="text-muted mb-3">Información del Pedido</h5>
+
+                            <!-- Cliente -->
+                            <div class="row">
+                                <div class="col-3">Cliente</div>
+                                <div class="col-9">
+                                    <select class="form-control" [disabled]="mode==1" formControlName="customer_id">
+                                        <option value="0">Seleccione un cliente...</option>
+                                        <option *ngFor="let customer of customers" [value]="customer.id">
+                                            {{ customer.name }} - {{ customer.email }}
+                                        </option>
+                                    </select>
+                                    <div
+                                        *ngIf="getTheFormGroup.customer_id.errors && (getTheFormGroup.customer_id.dirty || getTheFormGroup.customer_id.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.customer_id.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.customer_id.errors.min" class="msnError">Debe
+                                            seleccionar un cliente válido</strong>
+                                    </div>
+                                    <small class="text-muted" *ngIf="mode==1 && order.customer">
+                                        Cliente: {{ order.customer.name }} ({{ order.customer.email }})
+                                    </small>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Menú/Producto -->
+                            <div class="row">
+                                <div class="col-3">Producto (Menú)</div>
+                                <div class="col-9">
+                                    <select class="form-control" [disabled]="mode==1" formControlName="menu_id">
+                                        <option value="0">Seleccione un producto...</option>
+                                        <option *ngFor="let menu of menus" [value]="menu.id">
+                                            {{ menu.product?.name }} - ${{ menu.price }} ({{ menu.restaurant?.name }})
+                                        </option>
+                                    </select>
+                                    <div
+                                        *ngIf="getTheFormGroup.menu_id.errors && (getTheFormGroup.menu_id.dirty || getTheFormGroup.menu_id.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.menu_id.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.menu_id.errors.min" class="msnError">Debe
+                                            seleccionar un producto válido</strong>
+                                    </div>
+                                    <small class="text-muted" *ngIf="mode==1 && order.menu">
+                                        Producto: {{ order.menu.product?.name }} - ${{ order.menu.price }} ({{
+                                        order.menu.restaurant?.name }})
+                                    </small>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Motocicleta -->
+                            <div class="row">
+                                <div class="col-3">Motocicleta</div>
+                                <div class="col-9">
+                                    <select class="form-control" [disabled]="mode==1" formControlName="motorcycle_id">
+                                        <option value="0">Seleccione una motocicleta...</option>
+                                        <option *ngFor="let motorcycle of motorcycles" [value]="motorcycle.id">
+                                            ID: {{ motorcycle.id }} - {{ motorcycle.brand }}
+                                        </option>
+                                    </select>
+                                    <div
+                                        *ngIf="getTheFormGroup.motorcycle_id.errors && (getTheFormGroup.motorcycle_id.dirty || getTheFormGroup.motorcycle_id.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.motorcycle_id.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.motorcycle_id.errors.min" class="msnError">Debe
+                                            seleccionar una motocicleta válida</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Cantidad -->
+                            <div class="row">
+                                <div class="col-3">Cantidad</div>
+                                <div class="col-9">
+                                    <input type="number" class="form-control" [disabled]="mode==1"
+                                        formControlName="quantity">
+                                    <div
+                                        *ngIf="getTheFormGroup.quantity.errors && (getTheFormGroup.quantity.dirty || getTheFormGroup.quantity.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.quantity.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.quantity.errors.min" class="msnError">Debe ser al
+                                            menos 1</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Total -->
+                            <div class="row">
+                                <div class="col-3">Precio Total</div>
+                                <div class="col-9">
+                                    <input type="number" class="form-control" [disabled]="mode==1"
+                                        formControlName="total_price">
+                                    <div
+                                        *ngIf="getTheFormGroup.total_price.errors && (getTheFormGroup.total_price.dirty || getTheFormGroup.total_price.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.total_price.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.total_price.errors.min" class="msnError">Debe ser
+                                            mayor a 0</strong>
+                                    </div>
+                                    <small class="text-muted">El total se calcula automáticamente al seleccionar
+                                        producto y cantidad</small>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Estado -->
+                            <div class="row">
+                                <div class="col-3">Estado</div>
+                                <div class="col-9">
+                                    <select class="form-control" [disabled]="mode==1" formControlName="status">
+                                        <option value="pending">Pendiente</option>
+                                        <option value="in_progress">En Progreso</option>
+                                        <option value="completed">Completada</option>
+                                        <option value="cancelled">Cancelada</option>
+                                    </select>
+                                    <div
+                                        *ngIf="getTheFormGroup.status.errors && (getTheFormGroup.status.dirty || getTheFormGroup.status.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.status.errors.required"
+                                            class="msnError">Requerido</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Sección: Dirección de Entrega -->
+                            <h5 class="text-muted mb-3 mt-4">Dirección de Entrega</h5>
+
+                            <!-- Calle -->
+                            <div class="row">
+                                <div class="col-3">Calle</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" [disabled]="mode==1"
+                                        formControlName="street">
+                                    <div
+                                        *ngIf="getTheFormGroup.street.errors && (getTheFormGroup.street.dirty || getTheFormGroup.street.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.street.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.street.errors.minlength" class="msnError">Mínimo
+                                            3 caracteres</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Ciudad -->
+                            <div class="row">
+                                <div class="col-3">Ciudad</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" [disabled]="mode==1" formControlName="city">
+                                    <div
+                                        *ngIf="getTheFormGroup.city.errors && (getTheFormGroup.city.dirty || getTheFormGroup.city.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.city.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.city.errors.minlength" class="msnError">Mínimo 3
+                                            caracteres</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Departamento -->
+                            <div class="row">
+                                <div class="col-3">Departamento</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" [disabled]="mode==1"
+                                        formControlName="state">
+                                    <div
+                                        *ngIf="getTheFormGroup.state.errors && (getTheFormGroup.state.dirty || getTheFormGroup.state.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.state.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.state.errors.minlength" class="msnError">Mínimo 3
+                                            caracteres</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Código Postal -->
+                            <div class="row">
+                                <div class="col-3">Código Postal</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" [disabled]="mode==1"
+                                        formControlName="postal_code">
+                                    <div
+                                        *ngIf="getTheFormGroup.postal_code.errors && (getTheFormGroup.postal_code.dirty || getTheFormGroup.postal_code.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.postal_code.errors.required"
+                                            class="msnError">Requerido</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Información Adicional -->
+                            <div class="row">
+                                <div class="col-3">Info Adicional</div>
+                                <div class="col-9">
+                                    <textarea class="form-control" [disabled]="mode==1"
+                                        formControlName="additional_info" rows="3"
+                                        placeholder="Ej: Apto 201, timbre rojo..."></textarea>
+                                </div>
+                            </div>
+                            <br>
+
+                            <!-- Botones -->
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-9">
+
+                                    <button type="button" class="btn btn-secondary" (click)="back()">Volver</button>
+                                    <button type="button" class="btn btn-success" (click)="create()"
+                                        *ngIf="mode==2">Crear</button>
+                                    <button type="button" class="btn btn-warning" (click)="update()"
+                                        *ngIf="mode==3">Actualizar</button>
+
+                                </div>
+                                <!-- Botón extra de Regresar al final -->
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
