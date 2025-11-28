@@ -55,7 +55,7 @@ export class ManageComponent implements OnInit {
   configFormGroup() {
     this.theFormGroup = this.fb.group({
       id: [{ value: 0, disabled: true }],
-      description: ['', [Validators.required, Validators.minLength(5)]],
+      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       issue_type: ['Falla mecánica', [Validators.required]],
       status: ['Pendiente', [Validators.required]],
       motorcycle_id: [0, [Validators.required]]
