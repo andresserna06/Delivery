@@ -37,6 +37,27 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/restaurants/restaurants.module').then(m => m.RestaurantsModule)
             },
             {
+            path: 'motorcycles',
+            canActivate: [AuthenticationGuard],
+            loadChildren: () =>
+                import('src/app/pages/motorcycles/motorcycles.module')
+                    .then(m => m.MotorcyclesModule)
+            },
+            {
+                path: 'drivers',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () =>
+                    import('src/app/pages/drivers/drivers.module')
+                        .then(m => m.DriversModule)
+            },
+            {
+                path: 'shifts',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () =>
+                    import('src/app/pages/shifts/shifts.module')
+                    .then(m => m.ShiftsModule)
+            },
+            {
                 path: 'customers',
                 canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
                 loadChildren: () => import('src/app/pages/customers/customers.module').then(m => m.CustomersModule)

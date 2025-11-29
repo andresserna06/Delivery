@@ -1,0 +1,50 @@
+/* Contenedor principal */
+.card {
+  border-radius: 0.5rem;
+}
+
+/* Títulos */
+.card-header h3 {
+  font-weight: 600;
+}
+
+/* Inputs con borde rojo cuando hay error */
+.error small {
+  color: #dc3545; // Bootstrap danger color
+  font-size: 0.85rem;
+}
+
+/* Espaciado entre elementos */
+.mb-3 {
+  margin-bottom: 1.2rem !important;
+}
+
+/* Botones alineados */
+.d-flex {
+  gap: 0.8rem;
+}
+
+/* Ajustar textarea */
+textarea {
+  resize: none;
+}
+
+/* Sombra suave en hover del card */
+.card:hover {
+  transition: 0.2s ease-in-out;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Inputs en modo solo lectura */
+input[readonly],
+textarea[readonly],
+select[readonly] {
+  background-color: #e9ecef !important; // gris claro Bootstrap
+  cursor: not-allowed;
+}
+
+/* Quitar contorno azul en foco (más elegante) */
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: #5e72e4; // color inspirado en Argon
+}
