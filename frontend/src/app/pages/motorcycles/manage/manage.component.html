@@ -1,0 +1,105 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0" *ngIf="mode === 2">Crear Motocicleta</h3>
+          <h3 class="mb-0" *ngIf="mode === 3">Editar Motocicleta</h3>
+          <h3 class="mb-0" *ngIf="mode === 1">Detalle Motocicleta</h3>
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="theFormGroup" (ngSubmit)="mode === 2 ? create() : update()">
+
+            <!-- ID (solo lectura al editar/ver) -->
+            <div class="mb-3" *ngIf="mode !== 2">
+              <label>ID</label>
+              <input type="text" class="form-control" formControlName="id" readonly />
+            </div>
+
+            <!-- Placa -->
+            <div class="mb-3">
+              <label>Placa</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="license_plate"
+                [readonly]="mode === 1" />
+
+              <div *ngIf="getTheFormGroup.license_plate.errors && (getTheFormGroup.license_plate.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.license_plate.errors.required">La placa es requerida</small>
+              </div>
+            </div>
+
+            <!-- Marca -->
+            <div class="mb-3">
+              <label>Marca</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="brand"
+                [readonly]="mode === 1" />
+
+              <div *ngIf="getTheFormGroup.brand.errors && (getTheFormGroup.brand.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.brand.errors.required">La marca es requerida</small>
+              </div>
+            </div>
+
+            <!-- Año -->
+            <div class="mb-3">
+              <label>Año</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="year"
+                [readonly]="mode === 1" />
+
+              <div *ngIf="getTheFormGroup.year.errors && (getTheFormGroup.year.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.year.errors.required">El año es requerido</small>
+                <small *ngIf="getTheFormGroup.year.errors.min">Año mínimo 1900</small>
+                <small *ngIf="getTheFormGroup.year.errors.max">Año máximo 2100</small>
+              </div>
+            </div>
+
+            <!-- Estado -->
+            <div class="mb-3">
+              <label>Estado</label>
+              <select
+                class="form-control"
+                formControlName="status"
+                [disabled]="mode === 1">
+
+                <option value="">Seleccione...</option>
+                <option value="available">Disponible</option>
+                <option value="in_service">En servicio</option>
+                <option value="maintenance">En mantenimiento</option>
+              </select>
+
+              <div *ngIf="getTheFormGroup.status.errors && (getTheFormGroup.status.touched || trySend)" class="error">
+                <small *ngIf="getTheFormGroup.status.errors.required">El estado es requerido</small>
+              </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-secondary" (click)="back()">Regresar</button>
+
+              <button
+                type="submit"
+                class="btn"
+                [ngClass]="mode === 2 ? 'btn-success' : 'btn-warning'"
+                [disabled]="theFormGroup.invalid || mode === 1">
+                {{ mode === 2 ? 'Crear' : 'Actualizar' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

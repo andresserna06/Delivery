@@ -6,7 +6,7 @@ import { Motorcycle } from 'src/app/models/motorcycle.model';
 import { Restaurant } from 'src/app/models/restaurant.model'; // Importar modelo
 import { OrderService } from 'src/app/services/order.service';
 import { CustomersService } from 'src/app/services/customers.service';
-import { MotoService } from 'src/app/services/motorcycles.service';
+import { MotorcyclesService } from 'src/app/services/motorcycles.service';
 import { RestaurantsService } from 'src/app/services/restaurants.service'; // Importar servicio
 import Swal from 'sweetalert2';
 
@@ -30,7 +30,7 @@ export class ListOrdersComponent implements OnInit {
   constructor(
     private service: OrderService,
     private customersService: CustomersService,
-    private motoService: MotoService,
+    private motorcyclesService: MotorcyclesService,
     private restaurantsService: RestaurantsService, // Inyectar servicio
     private router: Router
   ) { }
@@ -56,7 +56,7 @@ export class ListOrdersComponent implements OnInit {
   }
 
   loadMotorcycles(): void {
-    this.motoService.list().subscribe(data => {
+    this.motorcyclesService.list().subscribe(data => {
       this.motorcycles = data;
     });
   }

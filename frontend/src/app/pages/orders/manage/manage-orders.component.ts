@@ -7,7 +7,7 @@ import { Motorcycle } from 'src/app/models/motorcycle.model';
 import { OrderService } from 'src/app/services/order.service';
 import { CustomersService } from 'src/app/services/customers.service';
 import { MenusService } from 'src/app/services/menus.service'; // importa tu servicio de menús
-import { MotoService } from 'src/app/services/motorcycles.service';
+import { MotorcyclesService } from 'src/app/services/motorcycles.service';
 import Swal from 'sweetalert2';
 import { Menu } from 'src/app/models/menu.model';
 
@@ -32,7 +32,7 @@ export class ManageOrdersComponent implements OnInit {
     private orderService: OrderService,
     private customersService: CustomersService,
     private menusService: MenusService,
-    private motoService: MotoService,
+    private motorcyclesService: MotorcyclesService,
     private router: Router,
     private theFormBuilder: FormBuilder
   ) {
@@ -98,7 +98,7 @@ export class ManageOrdersComponent implements OnInit {
   }
 
   loadMotorcycles(): void {
-    this.motoService.list().subscribe({
+    this.motorcyclesService.list().subscribe({
       next: (data) => {
         this.motorcycles = data;
       },
