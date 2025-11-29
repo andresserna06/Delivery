@@ -1,0 +1,125 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+
+        <!-- Header del Card -->
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0">{{ shiftId ? 'Actualizar Turno' : 'Crear Turno' }}</h3>
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="save()">
+
+            <!-- Conductor -->
+            <div class="form-group">
+              <label class="form-control-label" for="driver_id">
+                Conductor <span class="text-danger">*</span>
+              </label>
+              <select
+                id="driver_id"
+                class="form-control"
+                formControlName="driver_id"
+                [class.is-invalid]="form.get('driver_id')?.invalid && form.get('driver_id')?.touched">
+                <option value="">Seleccione un conductor</option>
+                <option *ngFor="let d of drivers" [value]="d.id">
+                  {{ d.name }}
+                </option>
+              </select>
+              <div *ngIf="form.get('driver_id')?.invalid && form.get('driver_id')?.touched" class="invalid-feedback">
+                El driver es requerido
+              </div>
+            </div>
+
+            <!-- Motocicleta -->
+            <div class="form-group">
+              <label class="form-control-label" for="motorcycle_id">
+                Motocicleta <span class="text-danger">*</span>
+              </label>
+              <select
+                id="motorcycle_id"
+                class="form-control"
+                formControlName="motorcycle_id"
+                [class.is-invalid]="form.get('motorcycle_id')?.invalid && form.get('motorcycle_id')?.touched">
+                <option value="">Seleccione una motocicleta</option>
+                <option *ngFor="let m of motorcycles" [value]="m.id">
+                  Placa: {{ m.license_plate }} - Estado: {{ m.status }}
+                </option>
+              </select>
+              <div *ngIf="form.get('motorcycle_id')?.invalid && form.get('motorcycle_id')?.touched" class="invalid-feedback">
+                La motocicleta es requerida
+              </div>
+            </div>
+
+            <!-- Hora de Inicio -->
+            <div class="form-group">
+              <label class="form-control-label" for="start_time">
+                Hora de Inicio <span class="text-danger">*</span>
+              </label>
+              <input
+                id="start_time"
+                type="datetime-local"
+                class="form-control"
+                formControlName="start_time"
+                [class.is-invalid]="form.get('start_time')?.invalid && form.get('start_time')?.touched">
+              <div *ngIf="form.get('start_time')?.invalid && form.get('start_time')?.touched" class="invalid-feedback">
+                La hora de inicio es requerida
+              </div>
+            </div>
+
+            <!-- Hora de Fin -->
+            <div class="form-group">
+              <label class="form-control-label" for="end_time">
+                Hora de Fin
+              </label>
+              <input
+                id="end_time"
+                type="datetime-local"
+                class="form-control"
+                formControlName="end_time">
+              <small class="form-text text-muted">Opcional - déjalo vacío si el turno está en curso</small>
+            </div>
+
+            <!-- Estado -->
+            <div class="form-group">
+              <label class="form-control-label" for="status">
+                Estado <span class="text-danger">*</span>
+              </label>
+              <select
+                id="status"
+                class="form-control"
+                formControlName="status"
+                [class.is-invalid]="form.get('status')?.invalid && form.get('status')?.touched">
+                <option value="">Seleccione un estado</option>
+                <option value="active">Activo</option>
+                <option value="inactive">Inactivo</option>
+                <option value="finished">Finalizado</option>
+              </select>
+              <div *ngIf="form.get('status')?.invalid && form.get('status')?.touched" class="invalid-feedback">
+                El estado es requerido
+              </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="mt-4">
+              <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="form.invalid">
+                {{ shiftId ? 'Actualizar' : 'Crear' }}
+              </button>
+              
+              <a routerLink="/admin/shifts/list" class="btn btn-secondary ml-2">
+                Cancelar
+              </a>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
