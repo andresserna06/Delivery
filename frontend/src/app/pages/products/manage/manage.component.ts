@@ -16,7 +16,18 @@ export class ManageComponent implements OnInit {
   product: Product;
   theFormGroup: FormGroup;
   trySend: boolean;
-
+  category: string[] = [
+  "Comida Rápida",
+  "Comida Internacional",
+  "Comida Tradicional",
+  "Comida Saludable",
+  "Postres",
+  "Bebidas",
+  "Desayunos",
+  "Almuerzos",
+  "Cenas",
+  "Snacks"
+];
   constructor(
     private activatedRoute: ActivatedRoute,
     private productsService: ProductsService,
@@ -26,6 +37,7 @@ export class ManageComponent implements OnInit {
     this.trySend = false;
     this.product = { id: 0 };
     this.configFormGroup();
+
   }
 
   ngOnInit(): void {

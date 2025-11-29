@@ -45,7 +45,7 @@
                   <tr *ngFor="let product of products">
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.price }}</td>
+                    <td>{{ product.price | currency:'COP':'symbol':'1.0-0' }}</td>
                     <td>{{ product.description }}</td>
                     <td>{{ product.category }}</td>
 
@@ -73,7 +73,7 @@
             <div class="cards-responsive" *ngIf="!loading && products.length > 0">
               <div class="card" *ngFor="let product of products">
                 <h3>{{ product.name }}</h3>
-                <p><strong>Precio:</strong> {{ product.price }}</p>
+                <p><strong>Precio:</strong> {{ product.price | currency:'COP':'symbol':'1.0-0' }}</p>
                 <p><strong>Descripción:</strong> {{ product.description }}</p>
                 <p><strong>Categoría:</strong> {{ product.category }}</p>
 
