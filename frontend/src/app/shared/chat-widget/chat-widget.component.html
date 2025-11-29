@@ -1,0 +1,13 @@
+<div class="chat-widget-container">
+
+    <!-- Botón flotante -->
+    <button class="chat-toggle-button" (click)="toggleChat()">
+        💬
+    </button>
+
+    <!-- Ventana del chat -->
+    <div *ngIf="open" class="chat-box">
+        <app-chat></app-chat>
+    </div>
+
+</div>

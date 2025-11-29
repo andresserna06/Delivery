@@ -13,6 +13,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ChatWidgetComponent } from './shared/chat-widget/chat-widget.component';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    ChatComponent,
+    ChatWidgetComponent
    
   ],
   providers: [{
