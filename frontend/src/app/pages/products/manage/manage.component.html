@@ -32,7 +32,8 @@
             <div class="mb-3">
               <label>Descripción</label>
               <textarea class="form-control" formControlName="description" rows="3" [readonly]="mode === 1"></textarea>
-              <div *ngIf="getTheFormGroup.description.errors && (getTheFormGroup.description.touched || trySend)" class="error">
+              <div *ngIf="getTheFormGroup.description.errors && (getTheFormGroup.description.touched || trySend)"
+                class="error">
                 <small *ngIf="getTheFormGroup.description.errors.required">Descripción es requerida</small>
               </div>
             </div>
@@ -40,10 +41,17 @@
             <!-- Categoría -->
             <div class="mb-3">
               <label>Categoría</label>
-              <input type="text" class="form-control" formControlName="category" [readonly]="mode === 1" />
-              <div *ngIf="getTheFormGroup.category.errors && (getTheFormGroup.category.touched || trySend)" class="error">
+              <select class="form-control" formControlName="category" [disabled]="mode === 1">
+                <option *ngFor="let cat of category" [value]="cat">
+                  {{ cat }}
+                </option>
+              </select>
+
+              <div *ngIf="getTheFormGroup.category.errors && (getTheFormGroup.category.touched || trySend)"
+                class="error">
                 <small *ngIf="getTheFormGroup.category.errors.required">Categoría es requerida</small>
               </div>
+
             </div>
 
             <!-- Precio -->
@@ -59,7 +67,8 @@
             <!-- Botones -->
             <div class="botones">
               <button type="button" class="btn btn-secondary" (click)="back()">Regresar</button>
-              <button type="submit" class="btn" [ngClass]="mode === 2 ? 'btn-success' : 'btn-warning'" [disabled]="theFormGroup.invalid || mode === 1">
+              <button type="submit" class="btn" [ngClass]="mode === 2 ? 'btn-success' : 'btn-warning'"
+                [disabled]="theFormGroup.invalid || mode === 1">
                 {{ mode === 2 ? 'Crear' : 'Actualizar' }}
               </button>
             </div>
