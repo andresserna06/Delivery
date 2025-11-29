@@ -1,1 +1,77 @@
-<p>manage works!</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <h3 class="mb-0" *ngIf="mode === 2">Crear Menú</h3>
+                    <h3 class="mb-0" *ngIf="mode === 3">Editar Menú</h3>
+                    <h3 class="mb-0" *ngIf="mode === 1">Detalle del Menú</h3>
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="theFormGroup" (ngSubmit)="mode === 2 ? create() : update()">
+
+                        <!-- ID -->
+                        <div class="mb-3" *ngIf="mode !== 2">
+                            <label>ID</label>
+                            <input type="text" class="form-control" formControlName="id" readonly />
+                        </div>
+
+                        <!-- Restaurante -->
+                        <div class="mb-3">
+                            <label>Restaurante</label>
+                            <select class="form-control" formControlName="restaurant_id" [disabled]="mode === 1" >
+                                <option *ngFor="let restaurant of restaurants" [value]="restaurant.id">{{ restaurant.name }}</option>
+                            </select>
+                        </div>
+
+                        
+                        
+
+                        <!-- Producto -->
+                        <div class="mb-3">
+                            <label>Producto</label>
+                            <select class="form-control" formControlName="product_id" [disabled]="mode === 1" (change)="onProductChange($event)">
+                                <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="mb-3">
+                            <label>Precio</label>
+                            <input type="number" class="form-control" formControlName="price" readonly  />
+                            <div *ngIf="getTheFormGroup.price.errors && (getTheFormGroup.price.touched || trySend)"
+                                class="error">
+                                <small *ngIf="getTheFormGroup.price.errors.required">Precio es requerido</small>
+                                <small *ngIf="getTheFormGroup.price.errors.min">El precio debe ser mayor a 0</small>
+                            </div>
+                        </div>
+
+                        <!-- Disponibilidad -->
+                        <div class="mb-3">
+                            <label>Disponibilidad</label>
+                            <select class="form-control" formControlName="availability" [disabled]="mode === 1">
+                                <option [ngValue]="true">Disponible</option>
+                                <option [ngValue]="false">No disponible</option>
+                            </select>
+                        </div>
+
+                        <!-- BOTONES -->
+                        <div class="botones">
+                            <button type="button" class="btn btn-secondary" (click)="back()">Regresar</button>
+
+                            <button type="submit" class="btn" [ngClass]="mode === 2 ? 'btn-success' : 'btn-warning'"
+                                [disabled]="theFormGroup.invalid || mode === 1">
+                                {{ mode === 2 ? 'Crear' : 'Actualizar' }}
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

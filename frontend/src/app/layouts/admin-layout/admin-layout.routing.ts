@@ -43,7 +43,7 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/products/products.module').then(m => m.ProductsModule)
             },
             {
-                path: 'menu',
+                path: 'menus',
                 canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
                 loadChildren: () => import('src/app/pages/menus/menus.module').then(m => m.MenusModule)
             },
@@ -57,7 +57,21 @@ export const AdminLayoutRoutes: Routes = [
                 canActivate: [AuthenticationGuard], // Protege la ruta para que solo usuarios autenticados puedan acceder mediante un guardian
                 loadChildren: () => import('src/app/pages/customers/customers.module').then(m => m.CustomersModule)
             },
-
+            {
+                path: 'orders',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/orders/orders.module').then(m => m.OrdersModule)
+            },
+            {
+                path: 'issues',
+                loadChildren: () => import('src/app/pages/issue/issue.module')
+                    .then(m => m.IssueModule)
+            },
+            {
+                path: 'photos',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/photos/photos.module').then(m => m.PhotosModule)
+            }
         ]
     }
 ];

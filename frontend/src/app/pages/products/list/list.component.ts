@@ -33,13 +33,13 @@ export class ListComponent implements OnInit {
     });
   }
 
-  deleteProduct(id: number) {
+  delete(id: number) {
     // ejemplo simple
     this.productsService.delete(id).subscribe(() => {
       this.products = this.products.filter(p => p.id !== id);
     });
   }
-  updateProduct(id: number) {
+  update(id: number) {
     this.router.navigate(['/products/update', id]);
   }
   create() {

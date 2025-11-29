@@ -1,0 +1,85 @@
+/* Fondo rojo como Argon */
+.header {
+  position: relative;
+  z-index: 1;
+}
+
+/* Contenedor que flota sobre el fondo rojo */
+.container-fluid {
+  position: relative;
+  z-index: 10;
+}
+
+/* Hace que las tarjetas suban y se superpongan */
+.cards-container {
+  margin-top: -110px; // controla qué tanto sube sobre la banda roja
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+  padding-bottom: 40px;
+}
+
+/* CARD */
+.restaurant-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+}
+
+/* ICONO */
+.icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: #fb6340; /* color naranja Argon */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 28px;
+}
+
+/* NOMBRE */
+.restaurant-name {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Texto general */
+.text {
+  font-size: 15px;
+  color: #4a4a4a;
+  margin: 3px 0;
+}
+
+/* Mensajes */
+.loading,
+.error,
+.no-restaurants {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.error {
+  color: #e63946;
+}
+
+.loading {
+  color: #444;
+}
+
+.no-restaurants {
+  color: #777;
+}

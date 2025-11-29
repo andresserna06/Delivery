@@ -1,0 +1,45 @@
+<div class="chat-container">
+    <div class="chat-header">
+        <div class="mute-btn" (click)="toggleMute()">
+            {{ isMuted ? '🔇' : '🔊' }}
+        </div>
+        <div class="avatar-wrapper">
+            <div class="avatar" [class.speaking]="isSpeaking">
+                <div class="cap">
+                    <div class="visor"></div>
+                    <div class="logo"></div>
+                </div>
+                <div class="head">
+                    <div class="face">
+                        <div class="eyes">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                        </div>
+                        <div class="mouth"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-text">
+            <h2>Asistente Virtual</h2>
+            <p>Siempre listo para ayudarte</p>
+        </div>
+    </div>
+
+    <div class="chat-messages">
+        <div *ngFor="let msg of messages" class="message-row"
+            [ngClass]="{'row-user': msg.role === 'user', 'row-bot': msg.role === 'bot'}">
+            <div class="message-bubble" [ngClass]="msg.role === 'user' ? 'msg-user' : 'msg-bot'">
+                {{ msg.text }}
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input-area">
+        <input type="text" [(ngModel)]="userMessage" (keyup.enter)="sendMessage()"
+            placeholder="Escribe tu consulta aquí..." />
+        <button (click)="sendMessage()" [disabled]="isSpeaking">
+            Enviar
+        </button>
+    </div>
+</div>
