@@ -18,6 +18,8 @@
                                 <option value="customer">Por Cliente</option>
                                 <option value="motorcycle">Por Motocicleta</option>
                                 <option value="status">Por Estado</option>
+                                <option value="restaurant">Por Restaurante</option>
+
                             </select>
                         </div>
 
@@ -55,6 +57,17 @@
                             </select>
                         </div>
 
+                        <!-- SELECT para restaurantes -->
+                        <div class="col-md-4" *ngIf="filterType === 'restaurant'">
+                            <label>Seleccione Restaurante</label>
+                            <select class="form-control" [(ngModel)]="filterValue">
+                                <option value="">Seleccione un restaurante...</option>
+                                <option *ngFor="let restaurant of restaurants" [value]="restaurant.id">
+                                    {{ restaurant.name }}
+                                </option>
+                            </select>
+                        </div>
+
                         <div class="col-md-4 d-flex align-items-end">
                             <button class="btn btn-primary mr-2" (click)="applyFilter()">Aplicar Filtro</button>
                             <button class="btn btn-secondary" (click)="clearFilter()">Limpiar</button>
@@ -89,7 +102,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Cliente</th>
-                                    <th>Producto</th>
+                                    <th>Menú</th>
                                     <th>Restaurante</th>
                                     <th>Cantidad</th>
                                     <th>Total</th>
@@ -105,7 +118,7 @@
                                         <div>{{ order.customer?.name }}</div>
                                         <small class="text-muted">{{ order.customer?.email }}</small>
                                     </td>
-                                    <td data-label="Producto">
+                                    <td data-label="Menú">
                                         <div>{{ order.menu?.product?.name }}</div>
                                         <small class="text-muted">{{ order.menu?.product?.category }}</small>
                                     </td>

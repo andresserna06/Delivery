@@ -9,6 +9,7 @@ import { CustomersService } from 'src/app/services/customers.service';
 import { MenusService } from 'src/app/services/menus.service'; // importa tu servicio de menús
 import { MotoService } from 'src/app/services/motorcycles.service';
 import Swal from 'sweetalert2';
+import { Menu } from 'src/app/models/menu.model';
 
 @Component({
   selector: 'app-manage-orders',
@@ -24,7 +25,7 @@ export class ManageOrdersComponent implements OnInit {
   // Listas para los selects
   customers: Customer[] = [];
   motorcycles: Motorcycle[] = [];
-  menus: any[] = []; // Aquí cargarías los menús disponibles
+  menus: Menu[] = []; // Aquí cargarías los menús disponibles
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,7 +64,7 @@ export class ManageOrdersComponent implements OnInit {
 
   configFormGroup() {
     this.theFormGroup = this.theFormBuilder.group({
-      id: [null, []],
+      id: ['Se asigna automáticamente', []],
       customer_id: [0, [Validators.required, Validators.min(1)]],
       menu_id: [0, [Validators.required, Validators.min(1)]],
       motorcycle_id: [0, [Validators.required, Validators.min(1)]],

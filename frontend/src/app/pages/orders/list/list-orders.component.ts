@@ -3,9 +3,11 @@ import { Router } from '@angular/router';
 import { Order } from 'src/app/models/order.model';
 import { Customer } from 'src/app/models/customer.model';
 import { Motorcycle } from 'src/app/models/motorcycle.model';
+import { Restaurant } from 'src/app/models/restaurant.model'; // Importar modelo
 import { OrderService } from 'src/app/services/order.service';
 import { CustomersService } from 'src/app/services/customers.service';
 import { MotoService } from 'src/app/services/motorcycles.service';
+import { RestaurantsService } from 'src/app/services/restaurants.service'; // Importar servicio
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,6 +21,7 @@ export class ListOrdersComponent implements OnInit {
   filteredOrders: Order[] = [];
   customers: Customer[] = [];
   motorcycles: Motorcycle[] = [];
+  restaurants: Restaurant[] = []; // Agregar array de restaurantes
 
   // Filtros
   filterType: string = 'none';
@@ -28,6 +31,7 @@ export class ListOrdersComponent implements OnInit {
     private service: OrderService,
     private customersService: CustomersService,
     private motoService: MotoService,
+    private restaurantsService: RestaurantsService, // Inyectar servicio
     private router: Router
   ) { }
 
@@ -35,6 +39,7 @@ export class ListOrdersComponent implements OnInit {
     this.loadOrders();
     this.loadCustomers();
     this.loadMotorcycles();
+    this.loadRestaurants(); // Cargar restaurantes
   }
 
   loadOrders(): void {
@@ -56,6 +61,12 @@ export class ListOrdersComponent implements OnInit {
     });
   }
 
+  loadRestaurants(): void {
+    this.restaurantsService.list().subscribe(data => {
+      this.restaurants = data;
+    });
+  }
+
   applyFilter(): void {
     if (this.filterType === 'none' || this.filterValue === '') {
       this.filteredOrders = this.orders;
@@ -72,6 +83,9 @@ export class ListOrdersComponent implements OnInit {
 
         case 'status':
           return order.status?.toLowerCase() === this.filterValue.toLowerCase();
+
+        case 'restaurant':
+          return order.menu?.restaurant?.id?.toString() === this.filterValue; // Filtrar por ID
 
         default:
           return true;
@@ -147,6 +161,4 @@ export class ListOrdersComponent implements OnInit {
         return status;
     }
   }
-
-
 }
