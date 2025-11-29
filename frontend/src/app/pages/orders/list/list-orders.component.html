@@ -94,7 +94,6 @@
                                     <th>Cantidad</th>
                                     <th>Total</th>
                                     <th>Estado</th>
-                                    <th>Dirección</th>
                                     <th>Fecha</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -118,11 +117,6 @@
                                             {{ getStatusText(order.status) }}
                                         </span>
                                     </td>
-                                    <td data-label="Dirección">
-                                        <div>{{ order.address?.street }}</div>
-                                        <small class="text-muted">{{ order.address?.city }}, {{ order.address?.state
-                                            }}</small>
-                                    </td>
                                     <td data-label="Fecha">
                                         <small>{{ order.created_at | date:'short' }}</small>
                                     </td>
@@ -131,6 +125,15 @@
                                             (click)="edit(order.id)">Editar</button>
                                         <button class="btn btn-danger btn-sm"
                                             (click)="delete(order.id)">Eliminar</button>
+                                        <a *ngIf="order.address" [routerLink]="['/addresses/update', order.address.id]"
+                                            class="btn btn-info btn-sm">
+                                            Ver Dirección
+                                        </a>
+
+                                        <a *ngIf="!order.address" [routerLink]="['/addresses/create', order.id]"
+                                            class="btn btn-success btn-sm">
+                                            Asignar Dirección
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>

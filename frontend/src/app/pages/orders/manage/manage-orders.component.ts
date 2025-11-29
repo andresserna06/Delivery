@@ -6,6 +6,7 @@ import { Customer } from 'src/app/models/customer.model';
 import { Motorcycle } from 'src/app/models/motorcycle.model';
 import { OrderService } from 'src/app/services/order.service';
 import { CustomersService } from 'src/app/services/customers.service';
+import { MenusService } from 'src/app/services/menus.service'; // importa tu servicio de menús
 import { MotoService } from 'src/app/services/motorcycles.service';
 import Swal from 'sweetalert2';
 
@@ -29,6 +30,7 @@ export class ManageOrdersComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private orderService: OrderService,
     private customersService: CustomersService,
+    private menusService: MenusService,
     private motoService: MotoService,
     private router: Router,
     private theFormBuilder: FormBuilder
@@ -61,19 +63,13 @@ export class ManageOrdersComponent implements OnInit {
 
   configFormGroup() {
     this.theFormGroup = this.theFormBuilder.group({
-      id: [0, []],
+      id: [null, []],
       customer_id: [0, [Validators.required, Validators.min(1)]],
       menu_id: [0, [Validators.required, Validators.min(1)]],
       motorcycle_id: [0, [Validators.required, Validators.min(1)]],
       quantity: [1, [Validators.required, Validators.min(1)]],
       status: ['pending', [Validators.required]],
-      total_price: [0, [Validators.required, Validators.min(0)]],
-      // Campos de dirección
-      street: ['', [Validators.required, Validators.minLength(3)]],
-      city: ['', [Validators.required, Validators.minLength(3)]],
-      state: ['', [Validators.required, Validators.minLength(3)]],
-      postal_code: ['', [Validators.required]],
-      additional_info: ['']
+      total_price: [0, [Validators.required, Validators.min(0)]]
     });
 
     // Listener para calcular el total automáticamente
@@ -112,17 +108,15 @@ export class ManageOrdersComponent implements OnInit {
   }
 
   loadMenus(): void {
-    // Asumiendo que tienes un servicio de menús
-    // Si no lo tienes, ajusta según tu backend
-    // this.menuService.list().subscribe({
-    //   next: (data) => {
-    //     this.menus = data;
-    //   }
-    // });
-
-    // Por ahora lo dejo comentado, ajusta según tu servicio
+    this.menusService.list().subscribe({
+      next: (data) => {
+        this.menus = data;
+      },
+      error: (error) => {
+        console.error('Error loading menus:', error);
+      }
+    });
   }
-
   calculateTotal(): void {
     const menuId = this.theFormGroup.get('menu_id')?.value;
     const quantity = this.theFormGroup.get('quantity')?.value;

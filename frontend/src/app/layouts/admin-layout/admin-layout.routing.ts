@@ -71,7 +71,13 @@ export const AdminLayoutRoutes: Routes = [
                 path: 'photos',
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/photos/photos.module').then(m => m.PhotosModule)
-            }
+            },
+            {
+                path: 'addresses',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/addresses/addresses.module').then(m => m.AddressesModule)
+            },
+
         ]
     }
 ];

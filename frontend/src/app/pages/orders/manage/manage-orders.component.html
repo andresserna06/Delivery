@@ -23,9 +23,6 @@
                             </div>
                             <br>
 
-                            <!-- Sección: Información del Pedido -->
-                            <h5 class="text-muted mb-3">Información del Pedido</h5>
-
                             <!-- Cliente -->
                             <div class="row">
                                 <div class="col-3">Cliente</div>
@@ -147,85 +144,6 @@
                                         <strong *ngIf="getTheFormGroup.status.errors.required"
                                             class="msnError">Requerido</strong>
                                     </div>
-                                </div>
-                            </div>
-                            <br>
-
-                            <!-- Sección: Dirección de Entrega -->
-                            <h5 class="text-muted mb-3 mt-4">Dirección de Entrega</h5>
-
-                            <!-- Calle -->
-                            <div class="row">
-                                <div class="col-3">Calle</div>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" [disabled]="mode==1"
-                                        formControlName="street">
-                                    <div
-                                        *ngIf="getTheFormGroup.street.errors && (getTheFormGroup.street.dirty || getTheFormGroup.street.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.street.errors.required"
-                                            class="msnError">Requerido</strong>
-                                        <strong *ngIf="getTheFormGroup.street.errors.minlength" class="msnError">Mínimo
-                                            3 caracteres</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-
-                            <!-- Ciudad -->
-                            <div class="row">
-                                <div class="col-3">Ciudad</div>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" [disabled]="mode==1" formControlName="city">
-                                    <div
-                                        *ngIf="getTheFormGroup.city.errors && (getTheFormGroup.city.dirty || getTheFormGroup.city.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.city.errors.required"
-                                            class="msnError">Requerido</strong>
-                                        <strong *ngIf="getTheFormGroup.city.errors.minlength" class="msnError">Mínimo 3
-                                            caracteres</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-
-                            <!-- Departamento -->
-                            <div class="row">
-                                <div class="col-3">Departamento</div>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" [disabled]="mode==1"
-                                        formControlName="state">
-                                    <div
-                                        *ngIf="getTheFormGroup.state.errors && (getTheFormGroup.state.dirty || getTheFormGroup.state.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.state.errors.required"
-                                            class="msnError">Requerido</strong>
-                                        <strong *ngIf="getTheFormGroup.state.errors.minlength" class="msnError">Mínimo 3
-                                            caracteres</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-
-                            <!-- Código Postal -->
-                            <div class="row">
-                                <div class="col-3">Código Postal</div>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" [disabled]="mode==1"
-                                        formControlName="postal_code">
-                                    <div
-                                        *ngIf="getTheFormGroup.postal_code.errors && (getTheFormGroup.postal_code.dirty || getTheFormGroup.postal_code.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.postal_code.errors.required"
-                                            class="msnError">Requerido</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-
-                            <!-- Información Adicional -->
-                            <div class="row">
-                                <div class="col-3">Info Adicional</div>
-                                <div class="col-9">
-                                    <textarea class="form-control" [disabled]="mode==1"
-                                        formControlName="additional_info" rows="3"
-                                        placeholder="Ej: Apto 201, timbre rojo..."></textarea>
                                 </div>
                             </div>
                             <br>
