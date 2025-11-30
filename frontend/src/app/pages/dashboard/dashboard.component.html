@@ -1,6 +1,6 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 
-<div class="container-fluid mt--7">
+<div class="container-fluid page-container">
 
   <!-- Loading -->
   <div *ngIf="loading" class="loading mb-4">Cargando restaurantes...</div>
@@ -15,7 +15,8 @@
 
   <!-- Cards -->
   <div class="cards-container" *ngIf="!loading && restaurants.length > 0">
-    <div 
+
+    <div
       class="restaurant-card"
       *ngFor="let restaurant of restaurants"
       (click)="select(restaurant.id)"
@@ -30,6 +31,7 @@
       <p class="text"><strong>Email:</strong> {{ restaurant.email }}</p>
       <p class="text"><strong>Teléfono:</strong> {{ restaurant.phone }}</p>
     </div>
+
   </div>
 
 </div>

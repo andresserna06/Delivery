@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenusService } from 'src/app/services/menus.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Menu } from 'src/app/models/menu.model';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
 
 @Component({
   selector: 'app-menu-list',
@@ -13,8 +14,10 @@ export class ListComponent implements OnInit {
   loading = false;
   error = '';
   restaurantId: number | null = null;
+  restaurantName: string | null = null;
 
   constructor(
+    private restaurantsService: RestaurantsService,
     private menusService: MenusService,
     private router: Router,
     private route: ActivatedRoute       // 🔥 Necesario para leer restaurantId
@@ -26,6 +29,7 @@ export class ListComponent implements OnInit {
 
     if (this.restaurantId) {
       this.loadMenusByRestaurant(this.restaurantId);
+      this.loadRestaurantName(this.restaurantId);
     } else {
       this.loadAllMenus();
     }
@@ -59,6 +63,13 @@ export class ListComponent implements OnInit {
         this.error = 'Error al cargar menús del restaurante';
         this.loading = false;
       }
+    });
+  }
+
+  loadRestaurantName(id: number) {
+    this.restaurantsService.view(id).subscribe({
+      next: (restaurant) => this.restaurantName = restaurant.name,
+      error: () => this.restaurantName = ''
     });
   }
 

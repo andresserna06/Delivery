@@ -1,33 +1,32 @@
-// Hacer el sidebar más ancho
-#sidenav-main {
-    width: 280px; // Por defecto es 250px, prueba con 280px o 300px
-}
+/* --- Ajustes navbar móvil para que cubra todo el ancho --- */
+@media (max-width: 768px) {
 
-// Ajustar el texto para que no se corte
-.nav-link-text {
-    white-space: nowrap; // Evita que el texto se divida en líneas
-    overflow: visible; // Permite que se vea todo el texto
-}
+  /* El contenedor principal */
+  #sidenav-main.navbar-vertical {
+    width: 100% !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    height: auto;
+  }
 
-// Ajustar el padding de los items
-.navbar-nav .nav-link {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-}
+  /* Evitar que se vea como barra lateral */
+  #sidenav-main .navbar-collapse {
+    width: 100% !important;
+    background: white;
+    padding-bottom: 15px;
+  }
 
-// Hacer los iconos un poco más pequeños para dar más espacio al texto
-.navbar-nav .nav-link i {
-    font-size: 0.9rem;
-    margin-right: 0.75rem;
-}
+  /* Que el container tome el ancho completo */
+  #sidenav-main .container-fluid {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 
-// Más espacio vertical entre items del menú
-.navbar-nav .nav-item {
-    margin-bottom: 0.5rem; // Espaciado entre items (puedes aumentar a 0.75rem o 1rem)
-}
-
-// O también puedes ajustar el padding de cada link
-.navbar-nav .nav-link {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+  /* Botón hamburguesa siempre visible */
+  #sidenav-main .navbar-toggler {
+    margin-left: auto;
+  }
 }
