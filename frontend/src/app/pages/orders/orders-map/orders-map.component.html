@@ -1,0 +1,55 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Seguimiento de Motocicletas</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <div *ngIf="isLoading" class="loading-overlay">
+                        <div class="loading-container">
+                            <div class="spinner"></div>
+                            <p class="loading-text">{{ loadingMessage }}</p>
+                        </div>
+                    </div>
+
+                    <!-- TOAST -->
+                    <div *ngIf="showToast" class="toast">
+                        {{ toastMessage }}
+                    </div>
+
+                    <!-- SELECT -->
+                    <div class="form-group mb-3">
+                        <label>Selecciona una moto:</label>
+                        <select class="form-control" (change)="onSelectMoto($event)">
+                            <option value="">Seleccione...</option>
+                            <option *ngFor="let m of motorcycles" [value]="m.license_plate">
+                                {{ m.license_plate }} - {{ m.brand }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- MENSAJE DE MOVIMIENTO -->
+                    <div class="custom-toast" [class.show]="showToast">
+                        {{ toastMessage }}
+                    </div>
+
+
+                    <!-- MAPA -->
+                    <div id="map" class="map-container"></div>
+                    <br>
+                    <button type="button" class="btn btn-secondary btn-responsive" (click)="back()">Volver</button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

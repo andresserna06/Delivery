@@ -5,12 +5,14 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import { ListOrdersComponent } from './list/list-orders.component';
 import { ManageOrdersComponent } from './manage/manage-orders.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OrderMapComponent } from './orders-map/orders-map.component';
 
 
 @NgModule({
   declarations: [
     ListOrdersComponent,
-    ManageOrdersComponent
+    ManageOrdersComponent,
+    OrderMapComponent
   ],
   imports: [
     CommonModule,

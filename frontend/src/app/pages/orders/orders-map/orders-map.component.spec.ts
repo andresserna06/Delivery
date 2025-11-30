@@ -1,0 +1,22 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { OrderMapComponent } from './orders-map.component';
+
+describe('OrderMapComponent', () => {
+  let component: OrderMapComponent;
+  let fixture: ComponentFixture<OrderMapComponent>;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ OrderMapComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(OrderMapComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
