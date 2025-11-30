@@ -1,0 +1,33 @@
+// Hacer el sidebar más ancho
+#sidenav-main {
+    width: 280px; // Por defecto es 250px, prueba con 280px o 300px
+}
+
+// Ajustar el texto para que no se corte
+.nav-link-text {
+    white-space: nowrap; // Evita que el texto se divida en líneas
+    overflow: visible; // Permite que se vea todo el texto
+}
+
+// Ajustar el padding de los items
+.navbar-nav .nav-link {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+// Hacer los iconos un poco más pequeños para dar más espacio al texto
+.navbar-nav .nav-link i {
+    font-size: 0.9rem;
+    margin-right: 0.75rem;
+}
+
+// Más espacio vertical entre items del menú
+.navbar-nav .nav-item {
+    margin-bottom: 0.5rem; // Espaciado entre items (puedes aumentar a 0.75rem o 1rem)
+}
+
+// O también puedes ajustar el padding de cada link
+.navbar-nav .nav-link {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}

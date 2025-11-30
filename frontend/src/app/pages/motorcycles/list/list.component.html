@@ -50,14 +50,18 @@
                     <td>{{ moto.status }}</td>
 
                     <td class="actions">
-                    <!-- Botón Editar -->
-                    <button class="btn btn-warning btn-sm mr-2" (click)="update(moto.id)">
+                      <!-- Botón Editar -->
+                      <button class="btn btn-warning btn-sm mr-2" (click)="update(moto.id)">
                         Editar
-                    </button>
-                    <!-- Botón Eliminar -->
-                    <button class="btn btn-danger btn-sm" (click)="delete(moto.id)">
+                      </button>
+                      <!-- Botón Eliminar -->
+                      <button class="btn btn-danger btn-sm" (click)="delete(moto.id)">
                         Eliminar
-                    </button>
+                      </button>
+                      <button class="btn btn-primary btn-sm mr-2" [routerLink]="['/issues/moto', moto.id]">
+                        Problemas
+                      </button>
+
                     </td>
 
                   </tr>

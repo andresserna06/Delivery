@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IssueService } from 'src/app/services/issue.service';
 import { Issue } from 'src/app/models/issue.model';
 import Swal from 'sweetalert2';
@@ -16,7 +16,9 @@ export class ListComponent implements OnInit {
 
   constructor(
     private service: IssueService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
+    
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +50,11 @@ export class ListComponent implements OnInit {
         });
       }
     });
+  }
+
+  back() {
+    // Volvemos al listado de motor
+    this.router.navigate([`/motorcycles`]);
   }
 
 }
