@@ -37,14 +37,8 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
-  openRestaurant(id: number) {
-    this.router.navigate(['/restaurants/view', id]);
-  }
   select(id: number) {
-    console.log("Restaurante seleccionado:", id);
-    // ejemplo de acción:
-    // this.router.navigate(['/restaurants/view', id]);
+  this.router.navigate(['/menus/restaurant', id]);
   }
 
 
