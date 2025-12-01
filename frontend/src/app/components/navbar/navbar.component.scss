@@ -1,0 +1,29 @@
+/* Navbar fijo */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999; // navbar siempre arriba
+}
+
+/* Dropdown del usuario */
+.dropdown-menu {
+  z-index: 11000 !important; // mucho más alto que cualquier tarjeta
+}
+
+/* Contenedor de tarjetas (cards) */
+.cards-container,
+.charts-grid {
+  position: relative;
+  z-index: 10; // debajo del dropdown
+}
+
+/* Tarjetas individuales */
+.restaurant-card,
+.chart-card {
+  position: relative;
+  z-index: 10; // mismo que el contenedor, sigue debajo del dropdown
+}
+.navbar a.h4 {
+  visibility: hidden; /* Oculta el contenido pero mantiene el espacio */
+}

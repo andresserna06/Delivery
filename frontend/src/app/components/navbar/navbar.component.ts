@@ -6,6 +6,7 @@ import { User } from 'src/app/models/User';
 import { SecurityService } from 'src/app/services/security.service';
 import { Subscription } from 'rxjs';
 import { WebSocketService } from 'src/app/services/web-socket-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
@@ -25,9 +26,9 @@ export class NavbarComponent implements OnInit {
     private securityService: SecurityService) {
     this.location = location;
     this.subscription = this.securityService.getUser() // Aca es para estar pendiente de los cambios de la variable Reactiva
-                                            .subscribe(data => {
-      this.user = data;
-    })
+      .subscribe(data => {
+        this.user = data;
+      })
 
     this.webSocketService.setNameEvent("ABC123");
     this.webSocketService.callback.subscribe((message) => { // Quedarse escuchando los mensajes del backend
@@ -52,6 +53,25 @@ export class NavbarComponent implements OnInit {
       }
     }
     return 'Dashboard';
+  }
+
+
+  logout() {
+    Swal.fire({
+      title: '¿Cerrar sesión?',
+      text: '¿Estás seguro que deseas salir?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#5e72e4',
+      cancelButtonColor: '#f5365c',
+      confirmButtonText: 'Sí, salir',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.securityService.logout();
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
 }

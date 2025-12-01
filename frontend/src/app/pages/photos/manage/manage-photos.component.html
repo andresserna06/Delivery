@@ -17,7 +17,7 @@
                         <h3 class="mb-0" *ngIf="mode === 'edit'">Editar Foto</h3>
                     </div>
 
-                    <button *ngIf="mode === 'view'" class="btn btn-primary btn-sm"
+                    <button *ngIf="mode === 'view'" class="btn btn-primary mr-2"
                         [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'create']">
                         + Subir Foto
                     </button>
@@ -31,26 +31,28 @@
           =================== -->
                     <div *ngIf="mode === 'view'">
                         <div class="row">
-                            <div *ngFor="let p of issue?.photos" class="col-md-4 col-12 mb-3">
-                                <div class="card shadow-sm">
-                                    <div class="card-body text-center">
-                                        <img [src]="getPhotoUrl(p.image_url)" class="photo-card-img mb-2"
-                                            (click)="openModal(getPhotoUrl(p.image_url))" style="cursor:pointer;">
+                            <div *ngFor="let p of issue?.photos" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                <div class="card shadow-sm card-photo">
+                                    <div class="card-body text-center d-flex flex-column">
+                                        <img [src]="getPhotoUrl(p.image_url)" class="mb-2"
+                                            (click)="openModal(getPhotoUrl(p.image_url))">
                                         <h5 class="card-title">{{ p.caption }}</h5>
                                         <p class="text-muted" *ngIf="p.taken_at">
                                             Tomada el: {{ p.taken_at | date:'yyyy-MM-dd' }}
                                         </p>
-                                        <button class="btn btn-warning btn-sm btn-block mt-1"
-                                            [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'edit', p.id]">
-                                            Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm btn-block mt-1"
-                                            (click)="deletePhoto(p.id)">
-                                            Eliminar
-                                        </button>
+                                        <div class="card-buttons">
+                                            <button class="btn btn-warning btn-sm"
+                                                [routerLink]="['/photos/issue', issueId, 'moto', motoId, 'edit', p.id]">
+                                                Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" (click)="deletePhoto(p.id)">
+                                                Eliminar
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <button class="btn btn-secondary mt-3" (click)="back()">Volver</button>
                     </div>

@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListComponent } from './list/list.component';
-import { ManageComponent } from './manage/manage.component';
+import { ListOrdersComponent } from './list/list-orders.component';
+import { ManageOrdersComponent } from './manage/manage-orders.component';
+import { OrderMapComponent } from './orders-map/orders-map.component';
 
 const routes: Routes = [
   {
     path: 'list',
-    component: ListComponent
+    component: ListOrdersComponent
   },
   {
     path: 'create',
-    component: ManageComponent
+    component: ManageOrdersComponent
   },
   {
     path: 'update/:id',
-    component: ManageComponent
-  }
+    component: ManageOrdersComponent
+  },
+  { path: 'map', component: OrderMapComponent },   
 ];
 
 @NgModule({

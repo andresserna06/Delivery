@@ -27,10 +27,10 @@
                                     [disabled]="mode==1">
                                 <div
                                     *ngIf="getTheFormGroup.description.errors && (getTheFormGroup.description.dirty || getTheFormGroup.description.touched || trySend)">
-                                    <small *ngIf="getTheFormGroup.description.errors.required"
-                                        class="text-danger">Requerido</small>
-                                    <small *ngIf="getTheFormGroup.description.errors.minlength"
-                                        class="text-danger">Mínimo 5 caracteres</small>
+                                    <strong *ngIf="getTheFormGroup.description.errors.required"
+                                        class="msnError">Requerido</strong>
+                                    <strong *ngIf="getTheFormGroup.description.errors.minlength"
+                                        class="msnError">Mínimo 5 caracteres</strong>
                                 </div>
                             </div>
                         </div>

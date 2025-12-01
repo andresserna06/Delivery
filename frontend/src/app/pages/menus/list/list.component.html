@@ -5,7 +5,8 @@
   <!-- Page content -->
   <div class="container-fluid mt--7">
 
-    <div class="row mb-3">
+    <!-- Botón Crear (solo si NO se está filtrando por restaurante) -->
+    <div class="row mb-3" *ngIf="!restaurantId">
       <div class="col text-right">
         <button class="btn btn-success" (click)="create()">
           Crear Menú
@@ -18,7 +19,9 @@
         <div class="card shadow">
 
           <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Menús</h3>
+            <h3 class="mb-0">
+              {{ restaurantId ? 'Menú de ' + restaurantName : 'Menús' }}
+            </h3>
           </div>
 
           <div class="card-body">
@@ -37,7 +40,7 @@
                     <th>Comida</th>
                     <th>Precio</th>
                     <th>Disponibilidad</th>
-                    <th>Opciones</th>
+                    <th *ngIf="!restaurantId">Opciones</th>
                   </tr>
                 </thead>
 
@@ -48,7 +51,9 @@
                     <td>{{ menu.product?.name }}</td>
                     <td>{{ menu.price | currency }}</td>
                     <td>{{ menu.availability ? 'Disponible' : 'No disponible' }}</td>
-                    <td class="actions">
+
+                    <!-- Opciones solo si NO se está filtrando por restaurante -->
+                    <td class="actions" *ngIf="!restaurantId">
                       <button class="btn-edit btn-sm" (click)="update(menu.id)">
                         Editar
                       </button>
@@ -77,10 +82,12 @@
                 <p><strong>Precio:</strong> {{ menu.price | currency }}</p>
                 <p><strong>Disponibilidad:</strong> {{ menu.availability ? 'Disponible' : 'No disponible' }}</p>
 
-                <div class="card-actions">
+                <!-- Acciones solo si NO hay restaurantId -->
+                <div class="card-actions" *ngIf="!restaurantId">
                   <button class="btn-edit" (click)="update(menu.id)">Editar</button>
                   <button class="btn-delete" (click)="delete(menu.id)">Eliminar</button>
                 </div>
+
               </div>
             </div>
 

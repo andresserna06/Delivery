@@ -1,0 +1,32 @@
+/* --- Ajustes navbar móvil para que cubra todo el ancho --- */
+@media (max-width: 768px) {
+
+  /* El contenedor principal */
+  #sidenav-main.navbar-vertical {
+    width: 100% !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    height: auto;
+  }
+
+  /* Evitar que se vea como barra lateral */
+  #sidenav-main .navbar-collapse {
+    width: 100% !important;
+    background: white;
+    padding-bottom: 15px;
+  }
+
+  /* Que el container tome el ancho completo */
+  #sidenav-main .container-fluid {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  /* Botón hamburguesa siempre visible */
+  #sidenav-main .navbar-toggler {
+    margin-left: auto;
+  }
+}

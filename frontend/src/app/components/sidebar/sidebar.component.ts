@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SecurityService } from 'src/app/services/security.service';
+import Swal from 'sweetalert2';
 
 declare interface RouteInfo {
-    path: string;
-    title: string;
-    icon: string;
-    class: string;
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'ni-pin-3 text-orange', class: '' },
-    { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
-    { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
-    { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
+  { path: '/dashboard', title: 'Dashboard', icon: 'ni-tv-2 text-primary', class: '' },
+  { path: '/restaurants', title: 'Restaurantes', icon: 'ni-shop text-blue', class: '' },
+  { path: '/customers', title: 'Clientes', icon: 'ni-badge text-orange', class: '' },
+  { path: '/menus', title: 'Menú', icon: 'ni-book-bookmark text-yellow', class: '' },
+  { path: '/products', title: 'Productos', icon: 'ni-box-2 text-primary', class: '' },
+  { path: '/orders/list', title: 'Órdenes', icon: 'ni-bullet-list-67 text-red', class: '' },
+  { path: '/motorcycles', title: 'Motocicletas', icon: 'fas fa-motorcycle text-info', class: '' },
+  { path: '/drivers', title: 'Conductores', icon: 'ni-circle-08 text-pink', class: '' },
+  { path: '/charts', title: 'Gráficos', icon: 'ni-chart-bar-32 text-green', class: '' }
 ];
 
 @Component({
@@ -27,12 +31,13 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[];
   public isCollapsed = true;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private securityService: SecurityService
+  ) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
-   });
+    });
   }
 }

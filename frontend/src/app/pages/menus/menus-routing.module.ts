@@ -21,6 +21,10 @@ const routes: Routes = [
     path: "update/:id",
     component: ManageComponent
   },
+  {
+    path: "restaurant/:restaurantId",
+    component: ListComponent
+  },
 
 ];
 

@@ -1,0 +1,164 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Order } from 'src/app/models/order.model';
+import { Customer } from 'src/app/models/customer.model';
+import { Motorcycle } from 'src/app/models/motorcycle.model';
+import { Restaurant } from 'src/app/models/restaurant.model'; // Importar modelo
+import { OrderService } from 'src/app/services/order.service';
+import { CustomersService } from 'src/app/services/customers.service';
+import { MotorcyclesService } from 'src/app/services/motorcycles.service';
+import { RestaurantsService } from 'src/app/services/restaurants.service'; // Importar servicio
+import Swal from 'sweetalert2';
+
+@Component({
+  selector: 'app-list-orders',
+  templateUrl: './list-orders.component.html',
+  styleUrls: ['./list-orders.component.scss']
+})
+export class ListOrdersComponent implements OnInit {
+
+  orders: Order[] = [];
+  filteredOrders: Order[] = [];
+  customers: Customer[] = [];
+  motorcycles: Motorcycle[] = [];
+  restaurants: Restaurant[] = []; // Agregar array de restaurantes
+
+  // Filtros
+  filterType: string = 'none';
+  filterValue: string = '';
+
+  constructor(
+    private service: OrderService,
+    private customersService: CustomersService,
+    private motorcyclesService: MotorcyclesService,
+    private restaurantsService: RestaurantsService, // Inyectar servicio
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    this.loadOrders();
+    this.loadCustomers();
+    this.loadMotorcycles();
+    this.loadRestaurants(); // Cargar restaurantes
+  }
+
+  loadOrders(): void {
+    this.service.list().subscribe(data => {
+      this.orders = data;
+      this.filteredOrders = data;
+    });
+  }
+
+  loadCustomers(): void {
+    this.customersService.list().subscribe(data => {
+      this.customers = data;
+    });
+  }
+
+  loadMotorcycles(): void {
+    this.motorcyclesService.list().subscribe(data => {
+      this.motorcycles = data;
+    });
+  }
+
+  loadRestaurants(): void {
+    this.restaurantsService.list().subscribe(data => {
+      this.restaurants = data;
+    });
+  }
+
+  applyFilter(): void {
+    if (this.filterType === 'none' || this.filterValue === '') {
+      this.filteredOrders = this.orders;
+      return;
+    }
+
+    this.filteredOrders = this.orders.filter(order => {
+      switch (this.filterType) {
+        case 'customer':
+          return order.customer_id?.toString() === this.filterValue;
+
+        case 'motorcycle':
+          return order.motorcycle_id?.toString() === this.filterValue;
+
+        case 'status':
+          return order.status?.toLowerCase() === this.filterValue.toLowerCase();
+
+        case 'restaurant':
+          return order.menu?.restaurant?.id?.toString() === this.filterValue; // Filtrar por ID
+
+        default:
+          return true;
+      }
+    });
+  }
+
+  clearFilter(): void {
+    this.filterType = 'none';
+    this.filterValue = '';
+    this.filteredOrders = this.orders;
+  }
+
+  edit(id: number): void {
+    this.router.navigate(['/orders/update', id]);
+  }
+
+  create(): void {
+    this.router.navigate(['/orders/create']);
+  }
+
+  delete(id: number): void {
+    console.log("Delete order with id:", id);
+    Swal.fire({
+      title: 'Eliminar Orden',
+      text: "¿Está seguro que quiere eliminar esta orden?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.delete(id).subscribe(data => {
+          Swal.fire(
+            'Eliminado!',
+            'Orden eliminada correctamente.',
+            'success'
+          );
+          this.loadOrders();
+        });
+      }
+    });
+  }
+
+  getStatusClass(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'pending':
+        return 'badge badge-warning';
+      case 'completed':
+        return 'badge badge-success';
+      case 'cancelled':
+        return 'badge badge-danger';
+      case 'in_progress':
+        return 'badge badge-info';
+      default:
+        return 'badge badge-secondary';
+    }
+  }
+
+  getStatusText(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'pending':
+        return 'Pendiente';
+      case 'completed':
+        return 'Completada';
+      case 'cancelled':
+        return 'Cancelada';
+      case 'in_progress':
+        return 'En Progreso';
+      default:
+        return status;
+    }
+  }
+}
