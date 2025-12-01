@@ -1,0 +1,24 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="charts-grid">
+  <!-- Gráficos circulares -->
+  <div class="chart-card" *ngFor="let chart of doughnutCharts">
+    <h3>{{ chart.data.datasets[0].label }}</h3>
+    <canvas baseChart [data]="chart.data" [options]="chart.options" [type]="'doughnut'">
+    </canvas>
+  </div>
+
+  <!-- Gráficos de barras -->
+  <div class="chart-card bar-chart" *ngFor="let chart of barCharts">
+    <h3>{{ chart.data.datasets[0].label }}</h3>
+    <canvas baseChart [data]="chart.data" [options]="chart.options" [type]="'bar'">
+    </canvas>
+  </div>
+
+  <!-- Gráficos de series temporales (línea) -->
+  <div class="chart-card" *ngFor="let chart of lineCharts">
+    <h3>{{ chart.data.datasets[0].label }}</h3>
+    <canvas baseChart [data]="chart.data" [options]="chart.options" [type]="'line'">
+    </canvas>
+  </div>
+
+</div>

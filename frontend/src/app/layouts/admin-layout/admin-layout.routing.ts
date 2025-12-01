@@ -98,6 +98,11 @@ export const AdminLayoutRoutes: Routes = [
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/addresses/addresses.module').then(m => m.AddressesModule)
             },
+            {
+                path: 'charts',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/charts/charts.module').then(m => m.ChartsModule)
+            },
 
         ]
     }
