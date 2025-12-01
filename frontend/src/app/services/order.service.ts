@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Order } from '../models/order.model';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private notificationService: NotificationService
+  ) { }
 
   // LISTAR TODOS
   list(): Observable<Order[]> {
@@ -23,8 +28,14 @@ export class OrderService {
 
   // CREAR UN NUEVO PEDIDO
   create(newOrder: Order): Observable<Order> {
-    delete newOrder.id; // igual que en theaters
-    return this.http.post<Order>(`${environment.url_backend}/orders`, newOrder);
+    delete newOrder.id;
+    return this.http.post<Order>(`${environment.url_backend}/orders`, newOrder).pipe(
+      tap((order) => {
+        // 🔔 Emitir notificación con sonido cuando se crea el pedido
+        console.log('🎉 Nuevo pedido creado:', order);
+        this.notificationService.notifyNewOrder(order.id!);
+      })
+    );
   }
 
   // ACTUALIZAR UN PEDIDO
