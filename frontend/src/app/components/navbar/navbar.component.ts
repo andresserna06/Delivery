@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { SecurityService } from 'src/app/services/security.service';
 import { Subscription } from 'rxjs';
-// import { WebSocketService } from 'src/app/services/web-socket-service.service';
+import { WebSocketService } from 'src/app/services/web-socket-service.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,40 +18,43 @@ export class NavbarComponent implements OnInit {
   public listTitles: any[];
   public location: Location;
   user: User;
-  subscription: Subscription;
-
-  isCollapsed: boolean = true;  // <-- 🔥 ESTA LÍNEA ES OBLIGATORIA
-
-  constructor(
-    location: Location,
+  subscription: Subscription; // Debe de estar pendiente de alguien 
+  constructor(location: Location,
     private element: ElementRef,
     private router: Router,
-    private securityService: SecurityService
-  ) {
+    private webSocketService: WebSocketService,
+    private securityService: SecurityService) {
     this.location = location;
-    this.subscription = this.securityService.getUser()
+    this.subscription = this.securityService.getUser() // Aca es para estar pendiente de los cambios de la variable Reactiva
       .subscribe(data => {
         this.user = data;
-      });
+      })
+
+    this.webSocketService.setNameEvent("ABC123");
+    this.webSocketService.callback.subscribe((message) => { // Quedarse escuchando los mensajes del backend
+      console.log("Mensaje recibido en el navbar: ", message);
+    });
+
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
   }
-
   getTitle() {
-    let titlee = this.location.prepareExternalUrl(this.location.path());
+    var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === '#') {
       titlee = titlee.slice(1);
     }
 
-    for (let item = 0; item < this.listTitles.length; item++) {
+
+    for (var item = 0; item < this.listTitles.length; item++) {
       if (this.listTitles[item].path === titlee) {
         return this.listTitles[item].title;
       }
     }
     return 'Dashboard';
   }
+
 
   logout() {
     Swal.fire({
