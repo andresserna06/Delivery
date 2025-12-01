@@ -31,7 +31,7 @@ import { ChatWidgetComponent } from './shared/chat-widget/chat-widget.component'
     AdminLayoutComponent,
     AuthLayoutComponent,
     ChatComponent,
-    ChatWidgetComponent
+    ChatWidgetComponent,
   ],
   providers: [{
       provide: HTTP_INTERCEPTORS,
