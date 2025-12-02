@@ -7,7 +7,7 @@ export const environment = {
   url_backend : 'http://127.0.0.1:5000',
   url_security: 'https://2ea9617f-b870-4c77-b45a-dcf4b035fe95.mock.pstmn.io',
   url_web_socket: 'http://localhost:5000',
-  GEMINI_API_KEY: 'AIzaSyB2jWy-Tsbk26ShyfeCFiapd0msDYMnRmY',
+  GEMINI_API_KEY: 'AIzaSyD5a4a8Mpc0IRlaKtfazwKBfmUwqXqMrNA',
   url_charts: 'https://4b273d53-b329-40ad-b94f-1f02aa40525f.mock.pstmn.io'
 
 };
