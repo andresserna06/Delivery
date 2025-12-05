@@ -1,6 +1,6 @@
 <div class="drivers-list">
 
-  <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
+ <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
 
   <!-- Page content -->
   <div class="container-fluid mt--7">
@@ -28,7 +28,7 @@
             <div *ngIf="error" class="error mb-3">{{ error }}</div>
 
             <!-- Tabla -->
-            <div *ngIf="!loading && drivers.length > 0" class="table-responsive">
+            <div *ngIf="!loading && drivers.length > 0" class="table-responsive d-none d-md-block">
               <table class="table table-striped table-hover align-items-center">
                 <thead class="thead-light">
                   <tr>
@@ -52,17 +52,13 @@
                     <td>{{ driver.status }}</td>
 
                     <td class="actions">
-
-                      <!-- Botón Editar -->
                       <button class="btn btn-warning btn-sm mr-2" (click)="update(driver.id)">
                         Editar
                       </button>
 
-                      <!-- Botón Eliminar -->
                       <button class="btn btn-danger btn-sm" (click)="delete(driver.id)">
                         Eliminar
                       </button>
-
                     </td>
                   </tr>
                 </tbody>
@@ -70,8 +66,25 @@
               </table>
             </div>
 
+            <!-- Vista tipo cards (Responsive) -->
+            <div class="cards-responsive d-block d-md-none" *ngIf="!loading && drivers.length > 0">
+              <div class="card driver-card" *ngFor="let driver of drivers">
+                <h4>{{ driver.name }}</h4>
+
+                <p><strong>Licencia:</strong> {{ driver.license_number }}</p>
+                <p><strong>Teléfono:</strong> {{ driver.phone }}</p>
+                <p><strong>Email:</strong> {{ driver.email }}</p>
+                <p><strong>Estado:</strong> {{ driver.status }}</p>
+
+                <div class="card-actions mt-3">
+                  <button class="btn btn-warning btn-sm mr-2" (click)="update(driver.id)">Editar</button>
+                  <button class="btn btn-danger btn-sm" (click)="delete(driver.id)">Eliminar</button>
+                </div>
+              </div>
+            </div>
+
             <!-- Si no hay conductores -->
-            <div *ngIf="!loading && drivers.length === 0" class="no-products">
+            <div *ngIf="!loading && drivers.length === 0" class="no-products text-center py-3">
               No hay conductores registrados.
             </div>
 

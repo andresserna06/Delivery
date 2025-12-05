@@ -1,0 +1,25 @@
+.cards-responsive {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  table {
+    display: none !important;
+  }
+
+  .cards-responsive {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cards-responsive .card {
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+  }
+
+  .card-actions button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}

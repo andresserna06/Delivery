@@ -1,167 +1,220 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-</div>
-<!-- Page content -->
-<div class="container-fluid mt--7">
+<div class="list-orders-list">
+
+  <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+  <!-- Page content -->
+  <div class="container-fluid mt--7">
+
     <!-- Filtros -->
     <div class="row mb-3">
         <div class="col">
             <div class="card shadow">
-                <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Filtros</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Tipo de Filtro</label>
-                            <select class="form-control" [(ngModel)]="filterType" (change)="filterValue = ''">
-                                <option value="none">Sin Filtro</option>
-                                <option value="customer">Por Cliente</option>
-                                <option value="motorcycle">Por Motocicleta</option>
-                                <option value="status">Por Estado</option>
-                                <option value="restaurant">Por Restaurante</option>
-
-                            </select>
-                        </div>
-
-                        <!-- SELECT para clientes -->
-                        <div class="col-md-4" *ngIf="filterType === 'customer'">
-                            <label>Seleccione Cliente</label>
-                            <select class="form-control" [(ngModel)]="filterValue">
-                                <option value="">Seleccione un cliente...</option>
-                                <option *ngFor="let customer of customers" [value]="customer.id">
-                                    {{ customer.name }} - {{ customer.email }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <!-- SELECT para motocicletas -->
-                        <div class="col-md-4" *ngIf="filterType === 'motorcycle'">
-                            <label>Seleccione Motocicleta</label>
-                            <select class="form-control" [(ngModel)]="filterValue">
-                                <option value="">Seleccione una motocicleta...</option>
-                                <option *ngFor="let motorcycle of motorcycles" [value]="motorcycle.id">
-                                    ID: {{ motorcycle.id }} - {{ motorcycle.brand }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <!-- Select para estado -->
-                        <div class="col-md-4" *ngIf="filterType === 'status'">
-                            <label>Estado</label>
-                            <select class="form-control" [(ngModel)]="filterValue">
-                                <option value="">Seleccione...</option>
-                                <option value="pending">Pendiente</option>
-                                <option value="in_progress">En Progreso</option>
-                                <option value="completed">Completada</option>
-                                <option value="cancelled">Cancelada</option>
-                            </select>
-                        </div>
-
-                        <!-- SELECT para restaurantes -->
-                        <div class="col-md-4" *ngIf="filterType === 'restaurant'">
-                            <label>Seleccione Restaurante</label>
-                            <select class="form-control" [(ngModel)]="filterValue">
-                                <option value="">Seleccione un restaurante...</option>
-                                <option *ngFor="let restaurant of restaurants" [value]="restaurant.id">
-                                    {{ restaurant.name }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-4 d-flex align-items-end">
-                            <button class="btn btn-primary mr-2" (click)="applyFilter()">Aplicar Filtro</button>
-                            <button class="btn btn-secondary" (click)="clearFilter()">Limpiar</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-header bg-transparent">
+            <h3 class="mb-0">Filtros</h3>
             </div>
+            <div class="card-body">
+            <div class="row">
+
+              <!-- Tipo de filtro -->
+              <div class="col-md-4">
+                <label>Tipo de Filtro</label>
+                <select class="form-control" [(ngModel)]="filterType" (change)="filterValue = ''">
+                  <option value="none">Sin Filtro</option>
+                  <option value="customer">Por Cliente</option>
+                  <option value="motorcycle">Por Motocicleta</option>
+                  <option value="status">Por Estado</option>
+                  <option value="restaurant">Por Restaurante</option>
+                </select>
+              </div>
+
+              <!-- CLIENTE -->
+              <div class="col-md-4" *ngIf="filterType === 'customer'">
+                <label>Cliente</label>
+                <select class="form-control" [(ngModel)]="filterValue">
+                  <option value="">Seleccione...</option>
+                  <option *ngFor="let c of customers" [value]="c.id">
+                    {{ c.name }} - {{ c.email }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- MOTO -->
+              <div class="col-md-4" *ngIf="filterType === 'motorcycle'">
+                <label>Motocicleta</label>
+                <select class="form-control" [(ngModel)]="filterValue">
+                  <option value="">Seleccione...</option>
+                  <option *ngFor="let m of motorcycles" [value]="m.id">
+                    {{ m.brand }} - {{ m.id }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- ESTADO -->
+              <div class="col-md-4" *ngIf="filterType === 'status'">
+                <label>Estado</label>
+                <select class="form-control" [(ngModel)]="filterValue">
+                  <option value="">Seleccione...</option>
+                  <option value="pending">Pendiente</option>
+                  <option value="in_progress">En Progreso</option>
+                  <option value="completed">Completada</option>
+                  <option value="cancelled">Cancelada</option>
+                </select>
+              </div>
+
+              <!-- RESTAURANTE -->
+              <div class="col-md-4" *ngIf="filterType === 'restaurant'">
+                <label>Restaurante</label>
+                <select class="form-control" [(ngModel)]="filterValue">
+                  <option value="">Seleccione...</option>
+                  <option *ngFor="let r of restaurants" [value]="r.id">
+                    {{ r.name }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Botones -->
+              <div class="col-md-4 d-flex align-items-end mt-3">
+                <button class="btn btn-primary mr-2" (click)="applyFilter()">Aplicar</button>
+                <button class="btn btn-secondary" (click)="clearFilter()">Limpiar</button>
+              </div>
+
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- Table -->
-    <div class="row">
-        <div class="col">
-            <div class="card shadow">
-                <div class="card-header bg-transparent">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Órdenes</h3>
-                        </div>
-                        <div class="col text-right">
-                            <button class="btn btn-success" (click)="create()">
-                                <i class="fa fa-plus"></i> Nueva Orden
-                            </button>
+    <!-- Tabla -->
+    <div class="row orders-table-desktop">
+      <div class="col">
+        <div class="card shadow">
+          <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Órdenes</h3>
 
-                            <button class="btn btn-info mr-2" [routerLink]="['/orders/map']">
-                                <i class="fa fa-map"></i> Mapa Interactivo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <!-- Vista Desktop y Móvil con misma tabla -->
-                    <div class="table-responsive">
-                        <table class="table table-hover table-argon-responsive">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Menú</th>
-                                    <th>Restaurante</th>
-                                    <th>Cantidad</th>
-                                    <th>Total</th>
-                                    <th>Estado</th>
-                                    <th>Fecha</th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let order of filteredOrders">
-                                    <td data-label="ID">{{ order.id }}</td>
-                                    <td data-label="Cliente">
-                                        <div>{{ order.customer?.name }}</div>
-                                        <small class="text-muted">{{ order.customer?.email }}</small>
-                                    </td>
-                                    <td data-label="Menú">
-                                        <div>{{ order.menu?.product?.name }}</div>
-                                        <small class="text-muted">{{ order.menu?.product?.category }}</small>
-                                    </td>
-                                    <td data-label="Restaurante">{{ order.menu?.restaurant?.name }}</td>
-                                    <td data-label="Cantidad">{{ order.quantity }}</td>
-                                    <td data-label="Total">${{ order.total_price?.toFixed(2) }}</td>
-                                    <td data-label="Estado">
-                                        <span [class]="getStatusClass(order.status)">
-                                            {{ getStatusText(order.status) }}
-                                        </span>
-                                    </td>
-                                    <td data-label="Fecha">
-                                        <small>{{ order.created_at | date:'short' }}</small>
-                                    </td>
-                                    <td data-label="Opciones">
-                                        <button class="btn btn-warning btn-sm mr-2"
-                                            (click)="edit(order.id)">Editar</button>
-                                        <button class="btn btn-danger btn-sm"
-                                            (click)="delete(order.id)">Eliminar</button>
-                                        <a *ngIf="order.address" [routerLink]="['/addresses/update', order.address.id]"
-                                            class="btn btn-info btn-sm">
-                                            Ver Dirección
-                                        </a>
-
-                                        <a *ngIf="!order.address" [routerLink]="['/addresses/create', order.id]"
-                                            class="btn btn-success btn-sm">
-                                            Asignar Dirección
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div *ngIf="filteredOrders.length === 0" class="text-center py-4">
-                            <p class="text-muted">No hay órdenes disponibles</p>
-                        </div>
-                    </div>
-                </div>
+            <div>
+              <button class="btn btn-info mr-2" [routerLink]="['/orders/map']">
+                <i class="fa fa-map"></i> Mapa
+              </button>
+              <button class="btn btn-success" (click)="create()">
+                <i class="fa fa-plus"></i> Nueva
+              </button>
             </div>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped align-items-center">
+                <thead class="thead-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Menú</th>
+                    <th>Restaurante</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Opciones</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let order of filteredOrders">
+                    <td>{{ order.id }}</td>
+                    <td>
+                      {{ order.customer?.name }}<br>
+                      <small class="text-muted">{{ order.customer?.email }}</small>
+                    </td>
+                    <td>
+                      {{ order.menu?.product?.name }}<br>
+                      <small class="text-muted">{{ order.menu?.product?.category }}</small>
+                    </td>
+                    <td>{{ order.menu?.restaurant?.name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>${{ order.total_price?.toFixed(2) }}</td>
+                    <td>
+                      <span [class]="getStatusClass(order.status)">
+                        {{ getStatusText(order.status) }}
+                      </span>
+                    </td>
+                    <td>{{ order.created_at | date:'short' }}</td>
+                    <td>
+                      <button class="btn btn-warning btn-sm mr-2" (click)="edit(order.id)">Editar</button>
+                      <button class="btn btn-danger btn-sm mr-2" (click)="delete(order.id)">Eliminar</button>
+
+                      <a *ngIf="order.address"
+                         [routerLink]="['/addresses/update', order.address.id]"
+                         class="btn btn-info btn-sm">
+                        Dirección
+                      </a>
+
+                      <a *ngIf="!order.address"
+                         [routerLink]="['/addresses/create', order.id]"
+                         class="btn btn-success btn-sm">
+                        Asignar Dirección
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
+
+            <div *ngIf="filteredOrders.length === 0" class="text-center py-4">
+              <p class="text-muted">No hay órdenes disponibles</p>
+            </div>
+          </div>
+
         </div>
+      </div>
     </div>
+
+    <!-- Cards -->
+    <div class="row orders-cards-mobile">
+      <div class="col">
+        <div *ngFor="let order of filteredOrders" class="card shadow mb-3 p-3">
+
+          <h4>#{{ order.id }}</h4>
+
+          <p><strong>Cliente:</strong> {{ order.customer?.name }}</p>
+          <p><strong>Menú:</strong> {{ order.menu?.product?.name }}</p>
+          <p><strong>Restaurante:</strong> {{ order.menu?.restaurant?.name }}</p>
+          <p><strong>Cantidad:</strong> {{ order.quantity }}</p>
+          <p><strong>Total:</strong> ${{ order.total_price?.toFixed(2) }}</p>
+
+          <p><strong>Estado:</strong>
+            <span [class]="getStatusClass(order.status)">
+              {{ getStatusText(order.status) }}
+            </span>
+          </p>
+
+          <p><strong>Fecha:</strong> {{ order.created_at | date:'short' }}</p>
+
+          <div class="mt-3">
+            <button class="btn btn-warning btn-sm mr-2" (click)="edit(order.id)">Editar</button>
+            <button class="btn btn-danger btn-sm mr-2" (click)="delete(order.id)">Eliminar</button>
+
+            <a *ngIf="order.address"
+               [routerLink]="['/addresses/update', order.address.id]"
+               class="btn btn-info btn-sm">
+              Dirección
+            </a>
+
+            <a *ngIf="!order.address"
+               [routerLink]="['/addresses/create', order.id]"
+               class="btn btn-success btn-sm">
+              Asignar Dirección
+            </a>
+          </div>
+
+        </div>
+
+        <div *ngIf="filteredOrders.length === 0" class="text-center py-4">
+          <p class="text-muted">No hay órdenes disponibles</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </div>

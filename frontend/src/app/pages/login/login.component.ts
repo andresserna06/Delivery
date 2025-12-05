@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.firebaseAuthService.loginWithGoogle().subscribe({
       next: (userData) => {
-        console.log('Usuario de Google:', userData);
+        console.log('Usuario de Google completo:', userData);
 
         this.securityService.saveSession({
           token: userData.uid,
@@ -81,7 +81,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   // Login con GitHub
   loginWithGithub() {
     this.isLoading = true;

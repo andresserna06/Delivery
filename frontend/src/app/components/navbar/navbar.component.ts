@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
@@ -18,34 +18,64 @@ export class NavbarComponent implements OnInit {
   public listTitles: any[];
   public location: Location;
   user: User;
-  subscription: Subscription; // Debe de estar pendiente de alguien 
-  constructor(location: Location,
+  subscription: Subscription;
+  userPhoto: string = 'assets/img/theme/team-4-800x800.jpg'; // Nueva propiedad específica para la foto
+
+  constructor(
+    location: Location,
     private element: ElementRef,
     private router: Router,
     private webSocketService: WebSocketService,
-    private securityService: SecurityService) {
+    private securityService: SecurityService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.location = location;
-    this.subscription = this.securityService.getUser() // Aca es para estar pendiente de los cambios de la variable Reactiva
+    this.subscription = this.securityService.getUser()
       .subscribe(data => {
         this.user = data;
-      })
+        console.log('=== USER DESDE OBSERVABLE ===', this.user);
+      });
 
     this.webSocketService.setNameEvent("ABC123");
-    this.webSocketService.callback.subscribe((message) => { // Quedarse escuchando los mensajes del backend
+    this.webSocketService.callback.subscribe((message) => {
       console.log("Mensaje recibido en el navbar: ", message);
     });
-
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.loadUserPhoto();
   }
+
+loadUserPhoto() {
+  console.log('=== INICIANDO CARGA DE FOTO ===');
+
+  const sessionString = localStorage.getItem('sesion');
+  console.log('sessionString RAW:', sessionString);
+
+  if (sessionString) {
+    const session = JSON.parse(sessionString);
+    console.log('session PARSEADA:', session);
+    console.log('session.photoURL:', session.photoURL);
+
+    if (session.photoURL) {
+      this.userPhoto = session.photoURL;
+      console.log('FOTO ASIGNADA:', this.userPhoto);
+    } else {
+      console.log('NO HAY session.photoURL, usando default');
+    }
+  } else {
+    console.log('NO HAY SESIÓN EN LOCALSTORAGE');
+  }
+
+  this.cdr.detectChanges();
+}
+
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === '#') {
       titlee = titlee.slice(1);
     }
-
 
     for (var item = 0; item < this.listTitles.length; item++) {
       if (this.listTitles[item].path === titlee) {
@@ -54,7 +84,6 @@ export class NavbarComponent implements OnInit {
     }
     return 'Dashboard';
   }
-
 
   logout() {
     Swal.fire({
@@ -78,5 +107,10 @@ export class NavbarComponent implements OnInit {
   event.target.src = 'assets/img/theme/default-user.png';
 }
 
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+  
 }

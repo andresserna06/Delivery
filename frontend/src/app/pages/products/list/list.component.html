@@ -5,6 +5,7 @@
   <!-- Page content -->
   <div class="container-fluid mt--7">
 
+    <!-- Botón crear -->
     <div class="row mb-3">
       <div class="col text-right">
         <button class="btn btn-success" (click)="create()">
@@ -27,8 +28,8 @@
             <div *ngIf="loading" class="loading mb-3">Cargando productos...</div>
             <div *ngIf="error" class="error mb-3">{{ error }}</div>
 
-            <!-- Tabla -->
-            <div *ngIf="!loading && products.length > 0" class="table-responsive">
+            <!-- Tabla (solo escritorio) -->
+            <div *ngIf="!loading && products.length > 0" class="table-responsive d-none d-md-block">
               <table class="table table-striped table-hover align-items-center">
                 <thead class="thead-light">
                   <tr>
@@ -48,15 +49,9 @@
                     <td>{{ product.price | currency:'COP':'symbol':'1.0-0' }}</td>
                     <td>{{ product.description }}</td>
                     <td>{{ product.category }}</td>
-
                     <td class="actions">
-                      <button class="btn-edit btn-sm" (click)="update(product.id)">
-                        Editar
-                      </button>
-
-                      <button class="btn-delete btn-sm" (click)="delete(product.id)">
-                        Eliminar
-                      </button>
+                      <button class="btn-edit btn-sm" (click)="update(product.id)">Editar</button>
+                      <button class="btn-delete btn-sm" (click)="delete(product.id)">Eliminar</button>
                     </td>
                   </tr>
                 </tbody>
@@ -65,22 +60,29 @@
             </div>
 
             <!-- Mensaje si vacío -->
-            <div *ngIf="!loading && products.length === 0" class="no-products">
+            <div *ngIf="!loading && products.length === 0" class="no-products text-center">
               No hay productos disponibles.
             </div>
 
-            <!-- Vista tipo cards -->
-            <div class="cards-responsive" *ngIf="!loading && products.length > 0">
+            <!-- Cards responsive (solo móvil) -->
+            <div class="cards-responsive d-block d-md-none" *ngIf="!loading && products.length > 0">
               <div class="card" *ngFor="let product of products">
+
                 <h3>{{ product.name }}</h3>
-                <p><strong>Precio:</strong> {{ product.price | currency:'COP':'symbol':'1.0-0' }}</p>
+
+                <p><strong>Precio:</strong> 
+                  {{ product.price | currency:'COP':'symbol':'1.0-0' }}
+                </p>
+
                 <p><strong>Descripción:</strong> {{ product.description }}</p>
+
                 <p><strong>Categoría:</strong> {{ product.category }}</p>
 
                 <div class="card-actions">
                   <button class="btn-edit" (click)="update(product.id)">Editar</button>
                   <button class="btn-delete" (click)="delete(product.id)">Eliminar</button>
                 </div>
+
               </div>
             </div>
 

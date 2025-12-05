@@ -1,29 +1,12 @@
-/* Navbar fijo */
 .navbar {
-  position: fixed;
+  position: relative;
   top: 0;
   width: 100%;
-  z-index: 9999; // navbar siempre arriba
-}
+  z-index: 1000;
 
-/* Dropdown del usuario */
-.dropdown-menu {
-  z-index: 11000 !important; // mucho más alto que cualquier tarjeta
-}
+  background: #b33a3a !important;
+  backdrop-filter: blur(6px); 
+  -webkit-backdrop-filter: blur(6px);
 
-/* Contenedor de tarjetas (cards) */
-.cards-container,
-.charts-grid {
-  position: relative;
-  z-index: 10; // debajo del dropdown
-}
-
-/* Tarjetas individuales */
-.restaurant-card,
-.chart-card {
-  position: relative;
-  z-index: 10; // mismo que el contenedor, sigue debajo del dropdown
-}
-.navbar a.h4 {
-  visibility: hidden; /* Oculta el contenido pero mantiene el espacio */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }

@@ -1,5 +1,30 @@
-/* --- Ajustes navbar móvil para que cubra todo el ancho --- */
+/* --- Logo en DESKTOP (forzar tamaño grande) --- */
+.navbar-logo,
+#sidenav-main .navbar-logo,
+.navbar-brand-img {
+  height: 120px !important;
+  /* Grande en desktop */
+  max-height: 120px !important;
+  width: auto !important;
+  margin-right: 10px;
+}
+
+.sidebar {
+  z-index: 999;
+}
+
+
+/* --- Ajustes navbar móvil --- */
 @media (max-width: 768px) {
+
+  /* Logo PEQUEÑO en móvil - FORZADO */
+  .navbar-logo,
+  #sidenav-main .navbar-logo,
+  .navbar-brand-img {
+    height: 45px !important;
+    max-height: 45px !important;
+    width: auto !important;
+  }
 
   /* El contenedor principal */
   #sidenav-main.navbar-vertical {
@@ -28,5 +53,24 @@
   /* Botón hamburguesa siempre visible */
   #sidenav-main .navbar-toggler {
     margin-left: auto;
+  }
+
+  /* Empujar el contenido */
+  .main-content {
+    padding-top: 85px !important;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .navbar-logo,
+  #sidenav-main .navbar-logo,
+  .navbar-brand-img {
+    height: 40px !important;
+    max-height: 40px !important;
+  }
+
+  .main-content {
+    padding-top: 80px !important;
   }
 }

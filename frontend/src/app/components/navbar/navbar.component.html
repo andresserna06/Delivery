@@ -1,20 +1,9 @@
 <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
   <div class="container-fluid">
     <!-- Brand -->
-    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" routerLinkActive="active" [routerLink]="['/dashboard']">{{getTitle()}}</a>
-    
-    <!-- Form -->
-    <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-      <div class="form-group mb-0" [ngClass]="{ 'focused': focus === true }">
-        <div class="input-group input-group-alternative">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
-          </div>
-          <input class="form-control" placeholder="Search" type="text" (focus)="focus = true" (blur)="focus = false">
-        </div>
-      </div>
-    </form>
-    
+    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" routerLinkActive="active"
+      [routerLink]="['/dashboard']">{{getTitle()}}</a>
+
     <!-- User -->
     <ul class="navbar-nav align-items-center d-none d-md-flex">
       <!-- Notificaciones -->
@@ -26,17 +15,10 @@
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">
                 <img 
-                  [src]="user?.photoURL || 'assets/img/theme/default-user.png'"
+                  [src]="userPhoto || 'assets/img/theme/default-user.png'"
                   class="user-photo"
                   (error)="onImageError($event)"
                 >
-                <ng-template #defaultPhoto>
-                  <img 
-                    src="assets/img/theme/team-4-800x800.jpg"
-                    alt="Default photo"
-                    class="user-photo"
-                  >
-                </ng-template>
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
               <span class="mb-0 text-sm font-weight-bold">{{user?user.name:"Invitado"}}</span>
@@ -45,24 +27,8 @@
         </a>
         <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
           <div class="dropdown-header noti-title">
-            <h6 class="text-overflow m-0">Welcome!</h6>
+            <h6 class="text-overflow m-0">Bienvenido!</h6>
           </div>
-          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
-            <i class="ni ni-single-02"></i>
-            <span>My profile</span>
-          </a>
-          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
-            <i class="ni ni-settings-gear-65"></i>
-            <span>Settings</span>
-          </a>
-          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
-            <i class="ni ni-calendar-grid-58"></i>
-            <span>Activity</span>
-          </a>
-          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
-            <i class="ni ni-support-16"></i>
-            <span>Support</span>
-          </a>
           <div class="dropdown-divider"></div>
           <a href="javascript:void(0)" (click)="logout()" class="dropdown-item">
             <i class="ni ni-user-run"></i>

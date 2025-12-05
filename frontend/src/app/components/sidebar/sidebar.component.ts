@@ -18,7 +18,9 @@ export const ROUTES: RouteInfo[] = [
   { path: '/orders/list', title: 'Órdenes', icon: 'ni-bullet-list-67 text-red', class: '' },
   { path: '/motorcycles', title: 'Motocicletas', icon: 'fas fa-motorcycle text-info', class: '' },
   { path: '/drivers', title: 'Conductores', icon: 'ni-circle-08 text-pink', class: '' },
-  { path: '/charts', title: 'Gráficos', icon: 'ni-chart-bar-32 text-green', class: '' }
+  { path: '/shifts', title: 'Turnos', icon: 'ni-time-alarm text-blue', class: '' },
+  { path: '/charts', title: 'Gráficos', icon: 'ni-chart-bar-32 text-green', class: '' },
+
 ];
 
 @Component({
@@ -31,13 +33,35 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[];
   public isCollapsed = true;
 
-  constructor(private router: Router, private securityService: SecurityService
+  // === VARIABLES FALTANTES ===
+  photoURL: string = '';
+  defaultAvatar: string = 'assets/img/theme/default-user.png';
+  userName: string = 'Usuario';
+
+  constructor(
+    private router: Router,
+    private securityService: SecurityService
   ) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
-    this.router.events.subscribe((event) => {
+
+    // Cargar datos del usuario desde localStorage
+    const sessionString = localStorage.getItem('sesion');
+
+    if (sessionString) {
+      const session = JSON.parse(sessionString);
+      this.photoURL = session.photoURL || this.defaultAvatar;
+      this.userName = session.name || 'Usuario';
+    }
+
+    this.router.events.subscribe(() => {
       this.isCollapsed = true;
     });
+  }
+
+  logout() {
+    this.securityService.logout();
+    this.router.navigate(['/login']);
   }
 }
