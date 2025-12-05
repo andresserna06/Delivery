@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { auth, googleProvider, githubProvider } from 'src/Auth/fireBaseConfig';
+import { auth, googleProvider, githubProvider, microsoftProvider } from 'src/Auth/fireBaseConfig';
 import { signInWithPopup, signOut, User } from 'firebase/auth';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -15,10 +15,7 @@ export class FirebaseAuthService {
   loginWithGoogle(): Observable<any> {
     return from(signInWithPopup(auth, googleProvider)).pipe(
       map((result) => {
-        // El usuario autenticado
         const user = result.user;
-
-        // Token de acceso de Google
         const credential = result.providerId;
 
         return {
@@ -48,11 +45,33 @@ export class FirebaseAuthService {
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
-          emailVerified: user.emailVerified
+          emailVerified: user.emailVerified,
+          login: user.displayName || user.email
         };
       }),
       catchError((error) => {
         console.error('Error en GitHub Sign-In:', error);
+        throw error;
+      })
+    );
+  }
+
+  // Autenticación con Microsoft
+  loginWithMicrosoft(): Observable<any> {
+    return from(signInWithPopup(auth, microsoftProvider)).pipe(
+      map((result) => {
+        const user = result.user;
+
+        return {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified
+        };
+      }),
+      catchError((error) => {
+        console.error('Error en Microsoft Sign-In:', error);
         throw error;
       })
     );

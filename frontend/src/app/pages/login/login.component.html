@@ -4,8 +4,6 @@
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-6">
           <h1 class="text-white">Welcome!</h1>
-          <p class="text-lead text-light">Use these awesome forms to login or create new account in your project for
-            free.</p>
         </div>
       </div>
     </div>
@@ -25,16 +23,48 @@
         <div class="card-header bg-transparent pb-5">
           <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
           <div class="btn-wrapper text-center">
-            <!-- Botón GitHub con funcionalidad -->
-            <button type="button" class="btn btn-neutral btn-icon" (click)="loginWithGithub()" [disabled]="isLoading">
-              <span class="btn-inner--icon"><img src="../assets/img/icons/common/github.svg"></span>
+            <!-- Botón GitHub -->
+            <button 
+              type="button" 
+              class="btn btn-neutral btn-icon mb-2" 
+              (click)="loginWithGithub()" 
+              [disabled]="isLoading"
+            >
+              <span class="btn-inner--icon">
+                <img src="../assets/img/icons/common/github.svg" alt="GitHub">
+              </span>
               <span class="btn-inner--text">Github</span>
             </button>
 
-            <!-- Botón Google con funcionalidad -->
-            <button type="button" class="btn btn-neutral btn-icon" (click)="loginWithGoogle()" [disabled]="isLoading">
-              <span class="btn-inner--icon"><img src="../assets/img/icons/common/google.svg"></span>
+            <!-- Botón Google -->
+            <button 
+              type="button" 
+              class="btn btn-neutral btn-icon mb-2" 
+              (click)="loginWithGoogle()" 
+              [disabled]="isLoading"
+            >
+              <span class="btn-inner--icon">
+                <img src="../assets/img/icons/common/google.svg" alt="Google">
+              </span>
               <span class="btn-inner--text">Google</span>
+            </button>
+
+            <!-- Botón Microsoft -->
+            <button 
+              type="button" 
+              class="btn btn-neutral btn-icon mb-2" 
+              (click)="loginWithMicrosoft()" 
+              [disabled]="isLoading"
+            >
+              <span class="btn-inner--icon">
+                <svg width="20" height="20" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="11" height="11" fill="#F25022"/>
+                  <rect x="12" width="11" height="11" fill="#7FBA00"/>
+                  <rect y="12" width="11" height="11" fill="#00A4EF"/>
+                  <rect x="12" y="12" width="11" height="11" fill="#FFB900"/>
+                </svg>
+              </span>
+              <span class="btn-inner--text">Microsoft</span>
             </button>
           </div>
         </div>
@@ -50,8 +80,14 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input class="form-control" placeholder="Email" type="email" [(ngModel)]="user.email" name="email"
-                  [disabled]="isLoading">
+                <input 
+                  class="form-control" 
+                  placeholder="Email" 
+                  type="email" 
+                  [(ngModel)]="user.email" 
+                  name="email"
+                  [disabled]="isLoading"
+                >
               </div>
             </div>
 
@@ -60,8 +96,14 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control" placeholder="Password" type="password" [(ngModel)]="user.password"
-                  name="password" [disabled]="isLoading">
+                <input 
+                  class="form-control" 
+                  placeholder="Password" 
+                  type="password" 
+                  [(ngModel)]="user.password"
+                  name="password" 
+                  [disabled]="isLoading"
+                >
               </div>
             </div>
 

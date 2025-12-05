@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.user = { email: "", password: "" };
   }
 
-  // Login con email y contraseña (tu método original)
+  // Login con email y contraseña
   login() {
     if (!this.user.email || !this.user.password) {
       Swal.fire("Error", "Por favor completa todos los campos", "warning");
@@ -55,16 +55,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (userData) => {
         console.log('Usuario de Google:', userData);
 
-        // Aquí puedes enviar los datos al backend si necesitas registrar al usuario
-        // Por ejemplo:
-        // this.securityService.loginWithGoogle(userData).subscribe(...)
-
-        // O guardar la sesión directamente
         this.securityService.saveSession({
-          token: userData.uid, // O el token que te devuelva tu backend
+          token: userData.uid,
           user: userData,
           name: userData.displayName
-
         });
 
         this.isLoading = false;
@@ -83,7 +77,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.isLoading = false;
 
         let errorMessage = 'Error al iniciar sesión con Google';
-
         if (error.code === 'auth/popup-closed-by-user') {
           errorMessage = 'Ventana cerrada antes de completar el inicio de sesión';
         } else if (error.code === 'auth/cancelled-popup-request') {
@@ -128,12 +121,54 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Login con Microsoft
+  loginWithMicrosoft() {
+    this.isLoading = true;
+
+    this.firebaseAuthService.loginWithMicrosoft().subscribe({
+      next: (userData) => {
+        console.log('Usuario de Microsoft:', userData);
+
+        this.securityService.saveSession({
+          token: userData.uid,
+          user: userData,
+          name: userData.displayName
+        });
+
+        this.isLoading = false;
+        Swal.fire({
+          title: '¡Bienvenido!',
+          text: `Hola ${userData.displayName}`,
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        this.router.navigate(["dashboard"]);
+      },
+      error: (error) => {
+        console.error('Error en Microsoft Sign-In:', error);
+        this.isLoading = false;
+
+        let errorMessage = 'Error al iniciar sesión con Microsoft';
+        if (error.code === 'auth/popup-closed-by-user') {
+          errorMessage = 'Ventana cerrada antes de completar el inicio de sesión';
+        } else if (error.code === 'auth/cancelled-popup-request') {
+          errorMessage = 'Solicitud cancelada';
+        } else if (error.code === 'auth/account-exists-with-different-credential') {
+          errorMessage = 'Ya existe una cuenta con este email usando otro proveedor';
+        }
+
+        Swal.fire("Error", errorMessage, "error");
+      }
+    });
+  }
+
   ngOnInit() {
-    // Verificar si ya hay un usuario autenticado
     this.firebaseAuthService.onAuthStateChanged((user) => {
       if (user) {
         console.log('Usuario ya autenticado:', user);
-        // Opcional: redirigir automáticamente al dashboard
+        // Opcional: redirigir automáticamente
         // this.router.navigate(["dashboard"]);
       }
     });
