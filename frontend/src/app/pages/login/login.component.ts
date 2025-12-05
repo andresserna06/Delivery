@@ -53,19 +53,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.firebaseAuthService.loginWithGoogle().subscribe({
       next: (userData) => {
-        console.log('Usuario de Google:', userData);
+        console.log('Usuario de Google completo:', userData);
 
-        // Aquí puedes enviar los datos al backend si necesitas registrar al usuario
-        // Por ejemplo:
-        // this.securityService.loginWithGoogle(userData).subscribe(...)
-
-        // O guardar la sesión directamente
+        // Guardar la sesión con la estructura correcta
         this.securityService.saveSession({
-          token: userData.uid, // O el token que te devuelva tu backend
-          user: userData,
+          id: userData.uid,
+          token: userData.uid,
           name: userData.displayName,
-          photo: userData.photoURL
-
+          email: userData.email,
+          photo: userData.photoURL,  // <- IMPORTANTE: pasar directamente photoURL
+          user: userData
         });
 
         this.isLoading = false;
@@ -95,7 +92,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   // Login con GitHub
   loginWithGithub() {
     this.isLoading = true;

@@ -30,17 +30,38 @@ export class SecurityService {
   Guardar la información de usuario en el local storage
   */
   saveSession(dataSesion: any) {
-    console.log(dataSesion)
+    console.log('=== DATOS RECIBIDOS ===', dataSesion);
+
+    // Extraer la foto de diferentes posibles ubicaciones
+    let photoUrl = null;
+
+    if (dataSesion["photo"]) {
+      photoUrl = dataSesion["photo"];
+    } else if (dataSesion["photoURL"]) {
+      photoUrl = dataSesion["photoURL"];
+    } else if (dataSesion.user && dataSesion.user.photoURL) {
+      photoUrl = dataSesion.user.photoURL;
+    }
+
+    console.log('=== PHOTO URL ENCONTRADA ===', photoUrl);
+
     let data: User = {
-      id: dataSesion["id"],
-      name: dataSesion["name"],
-      email: dataSesion["email"],
+      id: dataSesion["id"] || dataSesion.user?.uid,
+      name: dataSesion["name"] || dataSesion.user?.displayName,
+      email: dataSesion["email"] || dataSesion.user?.email,
       password: "",
-      token: dataSesion["token"],
-      photo: dataSesion["photo"] || dataSesion.user?.photoURL // Agregar esta línea
+      token: dataSesion["token"] || dataSesion.user?.uid,
+      photo: photoUrl
     };
+
+    console.log('=== DATOS A GUARDAR ===', data);
+
     localStorage.setItem('sesion', JSON.stringify(data));
     this.setUser(data);
+
+    // Verificación
+    const saved = localStorage.getItem('sesion');
+    console.log('=== GUARDADO EN LOCALSTORAGE ===', JSON.parse(saved));
   }
 
   /**
