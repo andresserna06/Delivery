@@ -63,7 +63,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.securityService.saveSession({
           token: userData.uid, // O el token que te devuelva tu backend
           user: userData,
-          name: userData.displayName
+          name: userData.displayName,
+          photo: userData.photoURL
 
         });
 

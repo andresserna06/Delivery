@@ -12,7 +12,7 @@ import { User } from '../models/User';
 export class SecurityService {
 
   theUser = new BehaviorSubject<User>(new User);
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.verifyActualSession()
   }
 
@@ -25,6 +25,7 @@ export class SecurityService {
   login(user: User): Observable<any> {
     return this.http.post<any>(`${environment.url_security}/login`, user);
   }
+
   /*
   Guardar la información de usuario en el local storage
   */
@@ -35,11 +36,22 @@ export class SecurityService {
       name: dataSesion["name"],
       email: dataSesion["email"],
       password: "",
-      token: dataSesion["token"]
+      token: dataSesion["token"],
+      photo: dataSesion["photo"] || dataSesion.user?.photoURL // Agregar esta línea
     };
     localStorage.setItem('sesion', JSON.stringify(data));
     this.setUser(data);
   }
+
+  /**
+   * Obtiene la sesión completa como objeto
+   * @returns Objeto con los datos de la sesión o null si no existe
+   */
+  getSession(): any {
+    const sessionData = this.getSessionData();
+    return sessionData ? JSON.parse(sessionData) : null;
+  }
+
   /**
     * Permite actualizar la información del usuario
     * que acabó de validarse correctamente
@@ -48,6 +60,7 @@ export class SecurityService {
   setUser(user: User) {
     this.theUser.next(user);
   }
+
   /**
   * Permite obtener la información del usuario
   * con datos tales como el identificador y el token
@@ -56,15 +69,15 @@ export class SecurityService {
   getUser() {
     return this.theUser.asObservable(); // .asObservable() para notificar a todo el mundo que hubo un cambio 
   }
+
   /**
     * Permite obtener la información de usuario
     * que tiene la función activa y servirá
     * para acceder a la información del token
-*/
+  */
   public get activeUserSession(): User {
     return this.theUser.value;
   }
-
 
   /**
   * Permite cerrar la sesión del usuario
@@ -74,6 +87,7 @@ export class SecurityService {
     localStorage.removeItem('sesion');
     this.setUser(new User());
   }
+
   /**
   * Permite verificar si actualmente en el local storage
   * existe información de un usuario previamente logueado
@@ -84,6 +98,7 @@ export class SecurityService {
       this.setUser(JSON.parse(actualSesion));
     }
   }
+
   /**
   * Verifica si hay una sesion activa
   * @returns
@@ -92,6 +107,7 @@ export class SecurityService {
     let sesionActual = this.getSessionData();
     return (sesionActual) ? true : false;
   }
+
   /**
   * Permite obtener los dato de la sesión activa en el
   * local storage

@@ -1,3 +1,18 @@
+/* --- LOGO: Aplicar tamaño en TODAS las resoluciones --- */
+.navbar-vertical .navbar-brand-img,
+.navbar-logo {
+  max-height: none !important;
+  max-width: none !important;
+}
+
+#sidenav-main .navbar-logo {
+  height: 120px;
+  /* Ajusta el tamaño que necesites */
+  width: auto;
+  display: block;
+  margin: 20px auto;
+}
+
 /* --- Ajustes navbar móvil para que cubra todo el ancho --- */
 @media (max-width: 768px) {
 
