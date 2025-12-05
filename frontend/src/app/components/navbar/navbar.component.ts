@@ -74,4 +74,9 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  onImageError(event: any) {
+  event.target.src = 'assets/img/theme/default-user.png';
+}
+
+
 }

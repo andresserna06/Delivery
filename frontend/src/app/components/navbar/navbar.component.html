@@ -25,7 +25,18 @@
         <a class="nav-link pr-0" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder" src="assets/img/theme/team-4-800x800.jpg">
+                <img 
+                  [src]="user?.photoURL || 'assets/img/theme/default-user.png'"
+                  class="user-photo"
+                  (error)="onImageError($event)"
+                >
+                <ng-template #defaultPhoto>
+                  <img 
+                    src="assets/img/theme/team-4-800x800.jpg"
+                    alt="Default photo"
+                    class="user-photo"
+                  >
+                </ng-template>
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
               <span class="mb-0 text-sm font-weight-bold">{{user?user.name:"Invitado"}}</span>

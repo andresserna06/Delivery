@@ -28,18 +28,20 @@ export class SecurityService {
   /*
   Guardar la información de usuario en el local storage
   */
-  saveSession(dataSesion: any) {
-    console.log(dataSesion)
-    let data: User = {
-      id: dataSesion["id"],
-      name: dataSesion["name"],
-      email: dataSesion["email"],
-      password: "",
-      token: dataSesion["token"]
-    };
-    localStorage.setItem('sesion', JSON.stringify(data));
-    this.setUser(data);
-  }
+saveSession(dataSesion: any) {
+  console.log(dataSesion)
+  let data: User = {
+    id: dataSesion["id"],
+    name: dataSesion["name"],
+    email: dataSesion["email"],
+    password: "",
+    token: dataSesion["token"],
+    photoURL: dataSesion["photoURL"] 
+  };
+  localStorage.setItem('sesion', JSON.stringify(data));
+  this.setUser(data);
+}
+
   /**
     * Permite actualizar la información del usuario
     * que acabó de validarse correctamente

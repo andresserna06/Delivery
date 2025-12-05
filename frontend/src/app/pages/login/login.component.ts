@@ -58,7 +58,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.securityService.saveSession({
           token: userData.uid,
           user: userData,
-          name: userData.displayName
+          name: userData.displayName,
+          email: userData.email,
+          photoURL: userData.photoURL
         });
 
         this.isLoading = false;
@@ -75,15 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.error('Error en Google Sign-In:', error);
         this.isLoading = false;
-
-        let errorMessage = 'Error al iniciar sesión con Google';
-        if (error.code === 'auth/popup-closed-by-user') {
-          errorMessage = 'Ventana cerrada antes de completar el inicio de sesión';
-        } else if (error.code === 'auth/cancelled-popup-request') {
-          errorMessage = 'Solicitud cancelada';
-        }
-
-        Swal.fire("Error", errorMessage, "error");
+        this.handleAuthError(error);
       }
     });
   }
@@ -99,7 +93,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.securityService.saveSession({
           token: userData.uid,
           user: userData,
-          name: userData.login
+          name: userData.login,
+          email: userData.email,
+          photoURL: userData.photoURL
         });
 
         this.isLoading = false;
@@ -116,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.error('Error en GitHub Sign-In:', error);
         this.isLoading = false;
-        Swal.fire("Error", "Error al iniciar sesión con GitHub", "error");
+        this.handleAuthError(error);
       }
     });
   }
@@ -132,7 +128,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.securityService.saveSession({
           token: userData.uid,
           user: userData,
-          name: userData.displayName
+          name: userData.displayName,
+          email: userData.email,
+          photoURL: userData.photoURL
         });
 
         this.isLoading = false;
@@ -149,27 +147,49 @@ export class LoginComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.error('Error en Microsoft Sign-In:', error);
         this.isLoading = false;
-
-        let errorMessage = 'Error al iniciar sesión con Microsoft';
-        if (error.code === 'auth/popup-closed-by-user') {
-          errorMessage = 'Ventana cerrada antes de completar el inicio de sesión';
-        } else if (error.code === 'auth/cancelled-popup-request') {
-          errorMessage = 'Solicitud cancelada';
-        } else if (error.code === 'auth/account-exists-with-different-credential') {
-          errorMessage = 'Ya existe una cuenta con este email usando otro proveedor';
-        }
-
-        Swal.fire("Error", errorMessage, "error");
+        this.handleAuthError(error);
       }
     });
+  }
+
+  // Manejador centralizado de errores
+  handleAuthError(error: any) {
+    let errorMessage = 'Error al iniciar sesión';
+    let errorTitle = 'Error';
+
+    if (error.code === 'auth/popup-closed-by-user') {
+      errorMessage = 'Ventana cerrada antes de completar el inicio de sesión';
+    } else if (error.code === 'auth/cancelled-popup-request') {
+      errorMessage = 'Solicitud cancelada';
+    } else if (error.code === 'auth/account-exists-with-different-credential') {
+      errorTitle = 'Cuenta ya existe';
+      errorMessage = 'Ya tienes una cuenta con este correo usando otro proveedor (Google, GitHub o Microsoft). Por favor, inicia sesión con el método que usaste originalmente.';
+      
+      // Mensaje más detallado
+      Swal.fire({
+        title: errorTitle,
+        html: `
+          <p>${errorMessage}</p>
+          <br>
+          <p class="text-muted"><small>Si no recuerdas cuál método usaste, intenta con cada uno.</small></p>
+        `,
+        icon: 'info',
+        confirmButtonText: 'Entendido'
+      });
+      return;
+    } else if (error.code === 'auth/popup-blocked') {
+      errorMessage = 'El navegador bloqueó la ventana emergente. Por favor, permite ventanas emergentes para este sitio.';
+    } else if (error.code === 'auth/unauthorized-domain') {
+      errorMessage = 'Este dominio no está autorizado. Contacta al administrador.';
+    }
+
+    Swal.fire(errorTitle, errorMessage, "error");
   }
 
   ngOnInit() {
     this.firebaseAuthService.onAuthStateChanged((user) => {
       if (user) {
         console.log('Usuario ya autenticado:', user);
-        // Opcional: redirigir automáticamente
-        // this.router.navigate(["dashboard"]);
       }
     });
   }
